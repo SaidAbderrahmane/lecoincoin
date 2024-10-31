@@ -11,8 +11,7 @@ class SaleAdController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        println saleAdService.list(params).get(0).metaClass.properties
-        // respond saleAdService.list(params), model:[saleAdCount: saleAdService.count()]
+        respond saleAdService.list(params), model:[saleAdCount: saleAdService.count()]
     }
 
     def show(Long id) {
