@@ -1,12 +1,19 @@
 package fr.bihar.lecoincoin
 
+import grails.plugin.springsecurity.SpringSecurityService
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.gorm.transactions.Transactional
 
+
+@Secured(['ROLE_ADMIN'])
+
 class UserController {
 
     UserService userService
+    SpringSecurityService springSecurityService
+
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
@@ -22,7 +29,8 @@ class UserController {
     def create() {
         respond new User(params), model: [roleList: Role.list()]
     }
-
+    
+    @Transactional
     def save(User user) {
         if (user == null) {
             notFound()
@@ -56,11 +64,21 @@ class UserController {
             '*' { respond user, [status: CREATED] }
         }
     }
-
+    
+    @Secured(['ROLE_ADMIN','ROLE_CLIENT'])
     def edit(Long id) {
-        respond userService.get(id), model: [roleList: Role.list()]
+
+        User logginUser = (User)springSecurityService.getCurrentUser()
+        def userRole = Role.findByAuthority('ROLE_CLIENT')
+        if (logginUser.getAuthorities().contains(userRole) && id != logginUser.id)
+            redirect(url: "/")
+        else
+            respond userService.get(id), model: [roleList: Role.list()]
+
     }
 
+
+    @Secured(['ROLE_ADMIN','ROLE_CLIENT'])
     @Transactional
     def update(User user) {
         if (user == null) {
@@ -94,12 +112,16 @@ class UserController {
         }
     }
 
+    @Transactional
     def delete(Long id) {
         if (id == null) {
             notFound()
             return
         }
 
+        UserRole.where { user == User.get(id) }.deleteAll()
+        Message.where { author == User.get(id) or dest == User.get(id)}.deleteAll()
+        Message.where { dest == User.get(id) }.deleteAll()
         userService.delete(id)
 
         request.withFormat {

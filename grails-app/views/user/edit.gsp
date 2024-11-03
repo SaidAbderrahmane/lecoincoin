@@ -1,3 +1,6 @@
+<%@ page import="grails.plugin.springsecurity.SpringSecurityService" %>
+<g:set var="springSecurityService" bean="springSecurityService" />
+
 <!DOCTYPE html>
 <html>
 
@@ -73,14 +76,15 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             required />
                     </div>
+                    <g:if test="${springSecurityService.currentUser.getAuthorities()*.authority.contains("ROLE_ADMIN")}">
                     <div class="mb-5">
-                   
                         <label for="role"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
                         <g:select name="role.id"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             value=" ${user.getAuthorities()[0].id}" from="${roleList}" optionKey="id" optionValue="authority" />
                     </div>
+                    </g:if>
                 </fieldset>
                 <fieldset>
                     <input type="submit" value="Submit"
