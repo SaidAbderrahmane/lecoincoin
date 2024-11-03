@@ -2,12 +2,13 @@ package fr.bihar.lecoincoin
 
 import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
+import grails.gorm.transactions.Transactional
 
 class UserController {
 
     UserService userService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -19,7 +20,7 @@ class UserController {
     }
 
     def create() {
-        respond new User(params)
+        respond new User(params), model: [roleList: Role.list()]
     }
 
     def save(User user) {
@@ -29,7 +30,19 @@ class UserController {
         }
 
         try {
-            userService.save(user)
+            
+            def roleId = params.role?.id
+            if (roleId) {
+                userService.save(user)
+                UserRole.where { user == user }.deleteAll()
+                def role = Role.get(roleId)
+                if (role) {
+                    UserRole.create(user, role, true) 
+                    } else {
+                    log.warn "Role with id $roleId not found"
+                }
+            }
+
         } catch (ValidationException e) {
             respond user.errors, view:'create'
             return
@@ -45,9 +58,10 @@ class UserController {
     }
 
     def edit(Long id) {
-        respond userService.get(id)
+        respond userService.get(id), model: [roleList: Role.list()]
     }
 
+    @Transactional
     def update(User user) {
         if (user == null) {
             notFound()
@@ -55,7 +69,17 @@ class UserController {
         }
 
         try {
-            userService.save(user)
+            def roleId = params.role?.id
+            if (roleId) {
+                userService.save(user)
+                UserRole.where { user == user }.deleteAll()
+                def role = Role.get(roleId)
+                if (role) {
+                    UserRole.create(user, role, true) 
+                    } else {
+                    log.warn "Role with id $roleId not found"
+                }
+            }
         } catch (ValidationException e) {
             respond user.errors, view:'edit'
             return
@@ -66,7 +90,7 @@ class UserController {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.id])
                 redirect user
             }
-            '*'{ respond user, [status: OK] }
+            '*' { respond user, [status: OK] }
         }
     }
 
@@ -81,9 +105,9 @@ class UserController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'user.label', default: 'User'), id])
-                redirect action:"index", method:"GET"
+                redirect action:'index', method:'GET'
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -91,9 +115,10 @@ class UserController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'user.label', default: 'User'), params.id])
-                redirect action: "index", method: "GET"
+                redirect action: 'index', method: 'GET'
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
+
 }
