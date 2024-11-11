@@ -120,7 +120,7 @@ class UserController {
         }
 
         UserRole.where { user == User.get(id) }.deleteAll()
-        Message.where { author == User.get(id) or dest == User.get(id)}.deleteAll()
+        Message.where { author == User.get(id) || dest == User.get(id)}.deleteAll()
         Message.where { dest == User.get(id) }.deleteAll()
         userService.delete(id)
 
