@@ -47,7 +47,7 @@
                             </g:eachError>
                         </ul>
                     </g:hasErrors>
-
+<%-- 
                     <g:form controller="saleAd" action="save" method="post" class="bg-white p-6 rounded shadow">
                         <div class="mb-4">
                             <label for="title" class="block text-gray-700">Title</label>
@@ -75,7 +75,7 @@
 
                         <div class="mb-4">
                             <label for="address" class="block text-gray-700">Address</label>
-                            <g:select name="address.id" from="${addressList}" optionKey="id" optionValue="address"
+                            <g:select name="address.postCode" from="${addressList}" optionKey="id" optionValue="address"
                                 value="${saleAd?.address?.id}"
                                 class="mt-1 block w-full p-2 border border-gray-300 rounded" />
                         </div>
@@ -91,7 +91,7 @@
                             <g:submitButton name="create" class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
                                 value="Create Sale Ad" />
                         </div>
-                    </g:form>
+                    </g:form> --%>
 
 
 
