@@ -16,6 +16,7 @@
 %{--    <asset:link rel="icon" href="favicon.ico" type="image/x-ico"/>--}%
 %{--    <asset:stylesheet src="application.css"/>--}%
         <asset:stylesheet src="pagination.css"/>
+        <asset:stylesheet src="forms.css"/>
     <g:layoutHead/>
 </head>
 

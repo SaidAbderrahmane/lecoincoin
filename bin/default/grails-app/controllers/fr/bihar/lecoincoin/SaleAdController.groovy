@@ -19,10 +19,11 @@ class SaleAdController {
     }
 
     def create() {
-        respond new SaleAd(params)
+        respond new SaleAd(params), model: [categoryList: Category.list(), addressList: Address.list()]
     }
 
-    def save(SaleAd saleAd) {
+    def save() {
+        // def saleAd = new SaleAd(params)
         if (saleAd == null) {
             notFound()
             return
