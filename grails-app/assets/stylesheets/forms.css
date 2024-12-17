@@ -1,0 +1,118 @@
+/* Container styling */
+form {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+/* Label styling */
+.fieldcontain label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    /* dark mode: #f9fafb */
+}
+
+/* Input and select styling */
+.fieldcontain input[type="text"],
+.fieldcontain input[type="number"],
+.fieldcontain select {
+    width: 100%;
+    padding: 0.625rem;
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    color: #111827;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fieldcontain input[type="text"]:focus,
+.fieldcontain input[type="number"]:focus,
+.fieldcontain select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    outline: none;
+}
+
+/* Checkbox styling */
+.fieldcontain input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.25rem;
+    background-color: #f9fafb;
+    transition: border-color 0.2s ease;
+}
+
+.fieldcontain input[type="checkbox"]:focus {
+    border-color: #3b82f6;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Required indicator */
+.required-indicator {
+    color: #e11d48;
+}
+
+/* Button styling */
+.buttons input[type="submit"] {
+    display: inline-block;
+    width: 100%;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #3b82f6;
+    border-radius: 0.375rem;
+    text-align: center;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.buttons input[type="submit"]:hover {
+    background-color: #2563eb;
+}
+
+.buttons input[type="submit"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Margin between fields */
+.fieldcontain {
+    margin-bottom: 1.25rem;
+}
+
+/* Dark mode styling */
+/* @media (prefers-color-scheme: dark) {
+
+    .fieldcontain label,
+    .fieldcontain input[type="text"],
+    .fieldcontain input[type="number"],
+    .fieldcontain select,
+    .fieldcontain input[type="checkbox"],
+    .buttons input[type="submit"] {
+        background-color: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+
+    .fieldcontain input[type="text"]:focus,
+    .fieldcontain input[type="number"]:focus,
+    .fieldcontain select:focus,
+    .fieldcontain input[type="checkbox"]:focus,
+    .buttons input[type="submit"]:focus {
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+    }
+
+    .buttons input[type="submit"] {
+        background-color: #2563eb;
+    }
+
+    .buttons input[type="submit"]:hover {
+        background-color: #1d4ed8;
+    }
+} */
