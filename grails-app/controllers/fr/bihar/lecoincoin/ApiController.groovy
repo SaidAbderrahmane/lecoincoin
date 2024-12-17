@@ -194,26 +194,28 @@ class ApiController {
     }
     def messages() {
 
-        switch (request.method) {
-            
-            case 'GET':
-                serializeThis(Message.list(), request.getHeader("Accept"))
-                break
+            switch (request.method) {
+                
+                case 'GET':
+                    serializeThis(Message.list(), request.getHeader("Accept"))
+                    break
 
-            case 'POST':            
-                def messageInstance = new Message(request.JSON)
-                if (!messageInstance.save(flush: true)) {
-                    response.status = 400
-                    render messageInstance.errors as JSON
-                    return
-                    serializeThis(messageInstance, request.getHeader("Accept"))
-                break
+                case 'POST':            
+                    def messageInstance = new Message(request.JSON)
+                    if (!messageInstance.save(flush: true)) {
+                        response.status = 400
+                        render messageInstance.errors as JSON
+                        return
+                        serializeThis(messageInstance, request.getHeader("Accept"))
+                    break
 
-            default:
-                return response.status = 405
-                break
+                default:
+                    return response.status = 405
+                    break
+            }
         }
     }
+    
     def serializeThis(Object object, String acceptHeader)
     {
         switch (acceptHeader)
@@ -231,4 +233,5 @@ class ApiController {
                 break
         }
     }
+
 }
