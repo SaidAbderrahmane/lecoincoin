@@ -5,7 +5,7 @@
     <title>Welcome to Grails</title>
 </head>
 <body>
-<content tag="nav">
+<%-- <content tag="nav">
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Application Status <span class="caret"></span></a>
         <ul class="dropdown-menu">
@@ -47,11 +47,12 @@
     <div class="grails-logo-container">
         <asset:image src="grails-cupsonly-logo-white.svg" class="grails-logo"/>
     </div>
-</div>
+</div> --%>
 
-<div id="content" role="main">
-    <div class="container">
-        <section class="row colset-2-its">
+<div  style="background-image: url('${resource(dir: 'images', file: 'login-bg.png')}');"
+        class="bg-cover h-screen flex items-center justify-center" id="content" role="main">
+    <%-- <div class="container">
+       <section class="row colset-2-its">
             <h1>Welcome to Grails</h1>
 
             <p>
@@ -71,8 +72,8 @@
                     </g:each>
                 </ul>
             </div>
-        </section>
-    </div>
+        </section> 
+    </div> --%>
 </div>
 
 </body>
