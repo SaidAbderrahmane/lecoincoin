@@ -95,7 +95,7 @@
 
 
 
-                    <g:form resource="${this.saleAd}" method="POST">
+                    <%-- <g:form resource="${this.saleAd}" method="POST">
                         <fieldset class="form">
                             <f:all bean="saleAd" />
                         </fieldset>
@@ -103,7 +103,45 @@
                             <g:submitButton name="create" class="save"
                                 value="${message(code: 'default.button.create.label', default: 'Create')}" />
                         </fieldset>
+                    </g:form> --%>
+                    <g:form enctype="multipart/form-data" action="save">
+                        <fieldset>
+                            <legend>Create a SaleAd</legend>
+
+                            <label for="title">Title</label>
+                            <g:textField name="title" value="${saleAd?.title}" required="true" />
+
+                            <label for="description">Description</label>
+                            <g:textArea name="description" value="${saleAd?.description}" required="true" />
+
+                            <label for="price">Price</label>
+                            <g:field type="number" name="price" value="${saleAd?.price}" required="true" />
+
+                            <g:select 
+                                name="address.id" 
+                                from="${addressList}" 
+                                optionKey="id"
+                                required="true"
+                                optionValue="${address}"
+                                value="${saleAd?.address?.id}"
+                            />
+
+                            <g:select 
+                                name="category.id" 
+                                from="${categoryList}" 
+                                optionKey="id" 
+                                required="true"
+                                optionValue="name"
+                                value="${saleAd?.category?.id}" 
+                            />
+
+                            <label for="file">Upload Images</label>
+                            <input type="file" name="files" id="files" multiple="multiple" />
+
+                            <button type="submit">Save</button>
+                        </fieldset>
                     </g:form>
+
                 </div>
             </section>
         </div>

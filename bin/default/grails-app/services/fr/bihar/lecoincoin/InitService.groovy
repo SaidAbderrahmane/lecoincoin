@@ -67,7 +67,7 @@ class InitService {
             User userAuthor ->
                 User.list().each {
                     User userDest ->
-                        new Message(content: "Le message de $userAuthor à $userDest", author: userAuthor, dest: userDest).save()
+                        new Message(content: "Le message de $userAuthor.username à $userDest.username", author: userAuthor, dest: userDest).save()
                 }
         }
 

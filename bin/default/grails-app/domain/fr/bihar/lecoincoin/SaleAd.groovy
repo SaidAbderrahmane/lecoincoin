@@ -1,9 +1,13 @@
 package fr.bihar.lecoincoin
 
+/**
+ * Represents a sale advertisement.
+ */
 class SaleAd {
+
     String title
     String description
-    Float price
+    BigDecimal price
     Date dateCreated
     Date lastUpdated
     Boolean active = Boolean.FALSE
@@ -17,11 +21,12 @@ class SaleAd {
     static constraints = {
         title nullable: false, blank: false, maxSize: 100
         description nullable: false, blank: false
-        price nullable: false, min: 0F, scale: 2
+        price nullable: false, min: 0.0
         active nullable: false
     }
 
     static mapping = {
         description type: 'text'
     }
+
 }
