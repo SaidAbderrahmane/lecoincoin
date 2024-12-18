@@ -2,11 +2,12 @@ package fr.bihar.lecoincoin
 
 class Illustration {
 
-    String fileName
+    byte[] fileData
 
     static belongsTo = [saleAd: SaleAd]
 
     static constraints = {
-        fileName nullable: false, blank: false
+        fileData(nullable: false, maxSize: 10 * Math.pow(1024, 2))
     }
+
 }

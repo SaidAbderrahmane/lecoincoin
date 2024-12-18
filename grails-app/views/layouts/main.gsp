@@ -24,6 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
     <asset:stylesheet src="pagination.css" />
+    <%-- <asset:stylesheet src="forms.css" /> --%>
     <g:layoutHead />
 </head>
 

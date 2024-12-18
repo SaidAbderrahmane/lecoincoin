@@ -15,4 +15,10 @@ class Address {
         city nullable: false, blank: false
         country nullable: false, blank: false
     }
+    // Used for customizing how address option is displayed in the select box
+    @Override
+    String toString() {
+        return "$address, $city, $postCode, $country"
+    }
+
 }
