@@ -30,32 +30,6 @@ class SaleAdController {
         respond new SaleAd(params), model: [categoryList: Category.list(), addressList: Address.list()]
     }
 
-    // def save() {
-    //     def saleAd = new SaleAd(params)
-    //     if (saleAd == null) {
-    //         notFound()
-    //         return
-    //     }
-
-    //     try {
-    //         saleAdService.save(saleAd)
-    //     } catch (ValidationException e) {
-    //         respond saleAd.errors, view:'create'
-    //         return
-    //     }
-
-    //     request.withFormat {
-    //         form multipartForm {
-    //             flash.message = message(
-    //                 code: 'default.created.message',
-    //                 args: [message(code: 'saleAd.label', default: 'SaleAd'), saleAd.id]
-    //             )
-    //             redirect saleAd
-    //         }
-    //         '*' { respond saleAd, [status: CREATED] }
-    //     }
-    // }
-
     def save() {
         log.info('Started saving SaleAd')
 
