@@ -1,13 +1,16 @@
 package fr.bihar.lecoincoin
 
+/**
+ * Represents an illustration associated with a sale advertisement.
+ */
 class Illustration {
 
-    byte[] fileData
+    String fileName
 
     static belongsTo = [saleAd: SaleAd]
 
     static constraints = {
-        fileData(nullable: false, maxSize: 10 * Math.pow(1024, 2))
+        fileName nullable: false, blank: false, maxSize: 255
     }
 
 }

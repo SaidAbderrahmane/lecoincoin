@@ -146,5 +146,5 @@ environments:
 server:
   port: 8081
 illustrations:
-  basePath: C:/Users/gregg/IdeaProjects/lecoincoin_24_25/grails-app/assets/images/
+  basePath: grails-app/assets/illustrations/
   baseUrl: http://localhost:8081/assets/

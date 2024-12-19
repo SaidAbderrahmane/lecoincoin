@@ -7,7 +7,7 @@ class AddressController {
 
     AddressService addressService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -37,7 +37,10 @@ class AddressController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'address.label', default: 'Address'), address.id])
+                flash.message = message(
+                    code: 'default.created.message',
+                    args: [message(code: 'address.label', default: 'Address'), address.id]
+                )
                 redirect address
             }
             '*' { respond address, [status: CREATED] }
@@ -66,7 +69,7 @@ class AddressController {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'address.label', default: 'Address'), address.id])
                 redirect address
             }
-            '*'{ respond address, [status: OK] }
+            '*' { respond address, [status: OK] }
         }
     }
 
@@ -81,9 +84,9 @@ class AddressController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'address.label', default: 'Address'), id])
-                redirect action:"index", method:"GET"
+                redirect action:'index', method:'GET'
             }
-            '*'{ render status: NO_CONTENT }
+            '*' { render status: NO_CONTENT }
         }
     }
 
@@ -91,9 +94,10 @@ class AddressController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'address.label', default: 'Address'), params.id])
-                redirect action: "index", method: "GET"
+                redirect action: 'index', method: 'GET'
             }
-            '*'{ render status: NOT_FOUND }
+            '*' { render status: NOT_FOUND }
         }
     }
+
 }

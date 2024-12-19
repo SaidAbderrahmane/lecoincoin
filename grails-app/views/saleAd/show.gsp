@@ -42,7 +42,24 @@
                     <g:if test="${flash.message}">
                         <div class="message" role="status">${flash.message}</div>
                     </g:if>
-                    <f:display bean="saleAd" />
+                    <%-- <f:display bean="saleAd" /> --%>
+                        <div class="sale-ad">
+        <h2>${saleAd.title}</h2>
+        <p><strong>Description:</strong> ${saleAd.description}</p>
+        <p><strong>Price:</strong> $${saleAd.price}</p>
+        <p><strong>Address:</strong> ${saleAd.address}</p>
+        <p><strong>Category:</strong> ${saleAd.category?.name}</p>
+        <p><strong>Author:</strong> ${saleAd.author?.username}</p>
+
+        <h3>Illustrations:</h3>
+        <div class="illustrations">
+            <g:each in="${saleAd.illustrations}" var="illustration">
+                <div class="illustration">
+                    <img src="${createLinkTo(dir: 'assets/illustrations', file: illustration.fileName)}" alt="${illustration.fileName}" />
+                    <p>${illustration.fileName}</p>
+                </div>
+            </g:each>
+        </div>
                     <g:form resource="${this.saleAd}" method="DELETE">
                         <fieldset class="buttons">
                             <g:link class="edit" action="edit" resource="${this.saleAd}">
