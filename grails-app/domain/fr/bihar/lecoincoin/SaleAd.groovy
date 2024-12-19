@@ -27,6 +27,7 @@ class SaleAd {
 
     static mapping = {
         description type: 'text'
+        illustrations cascade: 'all-delete-orphan'
     }
 
 }

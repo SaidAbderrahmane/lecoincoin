@@ -12,7 +12,9 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(['ROLE_ADMIN'])
 class SaleAdController {
 
+    UserService userService
     SaleAdService saleAdService
+    IllustraionService illustraionService
     SpringSecurityService springSecurityService
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
@@ -41,66 +43,22 @@ class SaleAdController {
         saleAd.category = Category.get(params.category.id as Integer)
         saleAd.author = springSecurityService.currentUser
 
-        if (!saleAd.save()) {
-            log.error("Failed to save SaleAd: ${saleAd.errors}")
-            flash.message = 'Error saving SaleAd'
-            render(view: 'create', model: [saleAd: saleAd])
-            return
-        }
-        log.info("SaleAd saved successfully: ${saleAd.id}")
-
-        // Get the uploaded files from the request
         def uploadedFiles = request.getFiles('files')
+        println "Uploaded files list: ${uploadedFiles}"
+        println "Number of uploaded files: ${uploadedFiles.size()}"
 
-        String uploadDir = grailsApplication.config.illustrations.basePath
-        File dir = new File(uploadDir)
-
-        // Check and create the upload directory if it doesn't exist
-        if (!dir.exists()) {
-            log.debug("Creating upload directory: ${dir}")
-            if (!dir.mkdirs()) {
-                log.error("Failed to create upload directory: ${dir}")
-                flash.message = 'Failed to create the upload directory.'
-                render(view: 'create', model: [saleAd: saleAd])
-                return
-            }
+        uploadedFiles.each { file ->
+            println "File original name: ${file.originalFilename}"
+            println "File content type: ${file.contentType}"
+            println "File size (bytes): ${file.size}"
+            println "File class: ${file.class.name}"
         }
 
-        uploadedFiles.each { uploadedFile ->
-            log.debug("Processing file: ${uploadedFile.originalFilename}")
-
-            def md5Digest = MessageDigest.getInstance('MD5')
-            def originalFilenameBytes = uploadedFile.originalFilename.bytes
-            def hashedFilename = md5Digest.digest(originalFilenameBytes).encodeHex().toString()
-
-            // add the file extension to the hashed filename
-            def fileExtension = uploadedFile.originalFilename.tokenize('.').last()
-            hashedFilename = "${hashedFilename}.${fileExtension}"
-
-            log.debug("Hashed filename: ${hashedFilename}")
-
-            File file = new File(dir, hashedFilename)
-
-            if (!file.createNewFile()) {
-                log.error("Failed to create file: ${hashedFilename}")
-                flash.message = "Failed to create file ${hashedFilename}."
-                render(view: 'create', model: [saleAd: saleAd])
-                return
-            }
-
-            try {
-                uploadedFile.transferTo(file.toPath())
-                log.debug("File saved: ${file.absolutePath}")
-
-                Illustration illustration = new Illustration()
-                illustration.fileName = hashedFilename
-
+        if (uploadedFiles.size() > 1) {
+            log.info("Processing ${uploadedFiles.size()} uploaded files")
+            def illustrations = illustraionService.createMany(uploadedFiles)
+            illustrations.each { illustration ->
                 saleAd.addToIllustrations(illustration)
-            } catch (Exception e) {
-                log.error("Error saving file ${hashedFilename}: ${e.message}", e)
-                flash.message = "Error saving file ${hashedFilename}."
-                render(view: 'create', model: [saleAd: saleAd])
-                return
             }
         }
 
@@ -123,11 +81,15 @@ class SaleAdController {
         }
 
         try {
-            /**
-             * TODO: Il faut sauvegarder l'image envoyée depuis le formulaire
-             * La sauvegarder en local puis créer une illustration sur le fichier
-             * que vous avez sauvegardé. Enfin on ajoute l'illustration à l'annonce
-              */
+            def uploadedFiles = request.getFiles('files')
+
+            if (uploadedFiles.size() > 1) {
+                log.info("Processing ${uploadedFiles.size()} uploaded files")
+                def illustrations = illustraionService.createMany(uploadedFiles)
+                illustrations.each { illustration ->
+                    saleAd.addToIllustrations(illustration)
+                }
+            }
             saleAdService.save(saleAd)
         } catch (ValidationException e) {
             respond saleAd.errors, view:'edit'

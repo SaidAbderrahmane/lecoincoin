@@ -2,6 +2,9 @@ package fr.bihar.lecoincoin
 
 import grails.gorm.services.Service
 
+/**
+ * Service interface for managing Address entities.
+ */
 @Service(Address)
 interface AddressService {
 

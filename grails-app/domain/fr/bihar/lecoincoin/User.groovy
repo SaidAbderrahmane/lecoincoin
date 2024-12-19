@@ -35,6 +35,6 @@ class User implements Serializable {
     }
 
     static mapping = {
-	    password column: '`password`'
+        password column: '`password`'
     }
 }

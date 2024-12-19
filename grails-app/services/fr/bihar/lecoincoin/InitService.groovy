@@ -36,7 +36,7 @@ class InitService {
         assert UserRole.count == 3
 
         // Pour chaque item de cette liste, je crée une catégorie
-        ['Immobilier', 'Véhicules', 'Locations de vacances', 'Emploi', 'Mode',
+        ['Non classe', 'Immobilier', 'Véhicules', 'Locations de vacances', 'Emploi', 'Mode',
          'Maison & Jardin', 'Famille', 'Électronique', 'Loisirs', 'Autres'].eachWithIndex {
             String catName, Integer catIndex ->
 
