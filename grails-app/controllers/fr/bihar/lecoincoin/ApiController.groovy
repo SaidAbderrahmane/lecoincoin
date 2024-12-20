@@ -5,7 +5,7 @@ import grails.converters.XML
 import grails.plugin.springsecurity.annotation.Secured
 
 @Secured('ROLE_ADMIN')
-@Transactional
+
 class ApiController {
 
     UserService userService
@@ -171,50 +171,50 @@ class ApiController {
         if (!messageInstance)
             return response.status = 404
         switch (request.method) {
+
             case 'GET':
                 serializeThis(messageInstance, request.getHeader("Accept"))
                 break
+
             case 'PUT':
                 break
+
             case 'PATCH':
                 break
+
             case 'DELETE':
-                if(messageInstance.author.id != springSecurityService.currentUser.id) {
-                    return response.status = 403
-                }
-                messageService.delete(params.id)
-                response.setStatus(204)
                 break
-                break
+
             default:
-                 return response.status = 405
+                return response.status = 405
                 break
         }
-
     }
+
     def messages() {
 
-            switch (request.method) {
-                
-                case 'GET':
-                    serializeThis(Message.list(), request.getHeader("Accept"))
-                    break
+        switch (request.method) {
+            
+            case 'GET':
+                serializeThis(Message.list(), request.getHeader("Accept"))
+                break
 
-                case 'POST':            
-                    def messageInstance = new Message(request.JSON)
-                    if (!messageInstance.save(flush: true)) {
-                        response.status = 400
-                        render messageInstance.errors as JSON
-                        return
-                        serializeThis(messageInstance, request.getHeader("Accept"))
-                    break
+            case 'POST':
+                def messageInstance = new Message(request.JSON)
+                if (!messageInstance.save(flush: true)) {
+                    response.status = 400
+                    render messageInstance.errors as JSON
+                    return
+                }
+                serializeThis(messageInstance, request.getHeader("Accept"))
+                break
 
-                default:
-                    return response.status = 405
-                    break
-            }
+            default:
+                return response.status = 405
+                break
         }
     }
+    
     
     def serializeThis(Object object, String acceptHeader)
     {
