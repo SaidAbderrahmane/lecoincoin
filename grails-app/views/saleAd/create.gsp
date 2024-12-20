@@ -47,101 +47,61 @@
                             </g:eachError>
                         </ul>
                     </g:hasErrors>
-<%-- 
-                    <g:form controller="saleAd" action="save" method="post" class="bg-white p-6 rounded shadow">
-                        <div class="mb-4">
-                            <label for="title" class="block text-gray-700">Title</label>
-                            <g:field name="title" class="mt-1 block w-full p-2 border border-gray-300 rounded"
-                                required="true" />
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="description" class="block text-gray-700">Description</label>
-                            <g:textArea name="description" value="${saleAd?.description}"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded" required="true" />
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="price" class="block text-gray-700">Price</label>
-                            <g:field name="price" value="${saleAd?.price}"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded" required="true" />
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="active" class="inline-flex items-center">
-                                <g:checkBox name="active" value="${saleAd?.active}" class="mr-2" /> Active
-                            </label>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="address" class="block text-gray-700">Address</label>
-                            <g:select name="address.postCode" from="${addressList}" optionKey="id" optionValue="address"
-                                value="${saleAd?.address?.id}"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="category" class="block text-gray-700">Category</label>
-                            <g:select name="category.id" from="${categoryList}" optionKey="id" optionValue="name"
-                                value="${saleAd?.category?.id}"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded" />
-                        </div>
-
-                        <div>
-                            <g:submitButton name="create" class="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-                                value="Create Sale Ad" />
-                        </div>
-                    </g:form> --%>
-
-
-
-                    <%-- <g:form resource="${this.saleAd}" method="POST">
-                        <fieldset class="form">
-                            <f:all bean="saleAd" />
-                        </fieldset>
-                        <fieldset class="buttons">
-                            <g:submitButton name="create" class="save"
-                                value="${message(code: 'default.button.create.label', default: 'Create')}" />
-                        </fieldset>
-                    </g:form> --%>
-                    <g:form enctype="multipart/form-data" action="save">
+                    <g:form enctype="multipart/form-data" action="save" class="max-w-sm mx-auto">
                         <fieldset>
-                            <legend>Create a SaleAd</legend>
+                            <legend class="text-lg font-medium text-gray-900 dark:text-white mb-5">Create a
+                                SaleAd</legend>
 
-                            <label for="title">Title</label>
-                            <g:textField name="title" value="${saleAd?.title}" required="true" />
+                            <div class="mb-5">
+                                <label for="title"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <g:textField name="title" value="${saleAd?.title}" required="true"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            </div>
 
-                            <label for="description">Description</label>
-                            <g:textArea name="description" value="${saleAd?.description}" required="true" />
+                            <div class="mb-5">
+                                <label for="description"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                <g:textArea name="description" value="${saleAd?.description}" required="true"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                </g:textArea>
+                            </div>
 
-                            <label for="price">Price</label>
-                            <g:field type="number" name="price" value="${saleAd?.price}" required="true" />
+                            <div class="mb-5">
+                                <label for="price"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
+                                <g:field type="number" name="price" value="${saleAd?.price}" required="true"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            </div>
 
-                            <g:select 
-                                name="address.id" 
-                                from="${addressList}" 
-                                optionKey="id"
-                                required="true"
-                                optionValue="${address}"
-                                value="${saleAd?.address?.id}"
-                            />
+                            <div class="mb-5">
+                                <label for="address"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                <g:select name="address.id" from="${addressList}" optionKey="id" required="true"
+                                    optionValue="${address}" value="${saleAd?.address?.id}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            </div>
 
-                            <g:select 
-                                name="category.id" 
-                                from="${categoryList}" 
-                                optionKey="id" 
-                                required="true"
-                                optionValue="name"
-                                value="${saleAd?.category?.id}" 
-                            />
+                            <div class="mb-5">
+                                <label for="category"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                <g:select name="category.id" from="${categoryList}" optionKey="id" required="true"
+                                    optionValue="name" value="${saleAd?.category?.id}"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                            </div>
 
-                            <label for="file">Upload Images</label>
-                            <input type="file" name="files" id="files" multiple="multiple" />
+                            <div class="mb-5">
+                                <label for="files"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload
+                                    Images</label>
+                                <input type="file" name="files" id="files" multiple="multiple"
+                                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+                            </div>
 
-                            <button type="submit">Save</button>
+                            <button type="submit"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
                         </fieldset>
                     </g:form>
-
                 </div>
             </section>
         </div>

@@ -12,7 +12,7 @@
 <body>
     <div id="content" role="main">
         <div class="container">
-            <section class="row flex flex-col gap-4 p-4">
+            <section class="row flex flex-col gap-4 py-4">
                 <a href="#list-category" class="skip sr-only focus:not-sr-only focus:outline-none" tabindex="-1">
                     <g:message code="default.link.skip.label" default="Skip to content&hellip;" />
                 </a>
@@ -23,15 +23,17 @@
                                 <g:message code="default.home.label" />
                             </a>
                         </li>
-                        <li>
-                            <g:link class="create text-blue-600 hover:underline" action="create">
+                        <li class="ml-auto">
+                            <g:link
+                                class="create inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium py-2 px-4 rounded-lg text-center transition duration-200"
+                                action="create">
                                 <g:message code="default.new.label" args="[entityName]" />
                             </g:link>
                         </li>
                     </ul>
                 </div>
             </section>
-            
+
             <section class="row">
                 <div id="list-category" class="col-12 content scaffold-list" role="main">
                     <h1>

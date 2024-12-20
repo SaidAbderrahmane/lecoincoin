@@ -1,13 +1,20 @@
 package fr.bihar.lecoincoin
 
 import static org.springframework.http.HttpStatus.*
+import grails.converters.JSON
+import java.security.MessageDigest
 
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.validation.ValidationException
 
+import grails.plugin.springsecurity.annotation.Secured
+
+@Secured(['ROLE_ADMIN'])
 class SaleAdController {
 
+    UserService userService
     SaleAdService saleAdService
+    IllustraionService illustraionService
     SpringSecurityService springSecurityService
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
@@ -25,35 +32,9 @@ class SaleAdController {
         respond new SaleAd(params), model: [categoryList: Category.list(), addressList: Address.list()]
     }
 
-    // def save() {
-    //     def saleAd = new SaleAd(params)
-    //     if (saleAd == null) {
-    //         notFound()
-    //         return
-    //     }
-
-    //     try {
-    //         saleAdService.save(saleAd)
-    //     } catch (ValidationException e) {
-    //         respond saleAd.errors, view:'create'
-    //         return
-    //     }
-
-    //     request.withFormat {
-    //         form multipartForm {
-    //             flash.message = message(
-    //                 code: 'default.created.message',
-    //                 args: [message(code: 'saleAd.label', default: 'SaleAd'), saleAd.id]
-    //             )
-    //             redirect saleAd
-    //         }
-    //         '*' { respond saleAd, [status: CREATED] }
-    //     }
-    // }
-
     def save() {
-        // Create a new SaleAd from the submitted parameters
-        println params
+        log.info('Started saving SaleAd')
+
         SaleAd saleAd = new SaleAd()
         saleAd.title = params.title
         saleAd.description = params.description
@@ -62,46 +43,30 @@ class SaleAdController {
         saleAd.category = Category.get(params.category.id as Integer)
         saleAd.author = springSecurityService.currentUser
 
-        // Handle file uploads if files were provided
         def uploadedFiles = request.getFiles('files')
-        if (uploadedFiles?.empty) {
-            flash.message = 'Please select files to upload.'
-        } else {
-            uploadedFiles.each { uploadedFile ->
-                println uploadedFile
-                if (!uploadedFile?.empty) {
-                    try {
-                        // Define the upload directory (can be configured in application.yml)
-                        def uploadDir = grailsApplication.config.uploadDirectory ?: '/path/to/upload/directory'
-                        def fileName = uploadedFile.originalFilename
-                        def filePath = java.nio.file.Paths.get(uploadDir, fileName)
+        println "Uploaded files list: ${uploadedFiles}"
+        println "Number of uploaded files: ${uploadedFiles.size()}"
 
-                        // Save the uploaded file to the file system
-                        java.nio.file.Files.copy(uploadedFile.inputStream, filePath)
+        uploadedFiles.each { file ->
+            println "File original name: ${file.originalFilename}"
+            println "File content type: ${file.contentType}"
+            println "File size (bytes): ${file.size}"
+            println "File class: ${file.class.name}"
+        }
 
-                        // Create an Illustration object and associate it with the SaleAd
-                        def illustration = new Illustration(fileName: fileName, saleAd: saleAd)
-                        illustration.save(flush: true)
-
-                        // Add the illustration to the SaleAd's illustrations collection
-                        saleAd.addToIllustrations(illustration)
-                    } catch (IOException e) {
-                        flash.message = "File upload failed: ${e.message}"
-                        render(view: 'create', model: [saleAd: saleAd])
-                        return
-                    }
-                }
+        if (uploadedFiles.size() > 1) {
+            log.info("Processing ${uploadedFiles.size()} uploaded files")
+            def illustrations = illustraionService.createMany(uploadedFiles)
+            illustrations.each { illustration ->
+                saleAd.addToIllustrations(illustration)
             }
         }
 
-        // Save the SaleAd object
-        if (!saleAd.save()) {
-            render(view: 'create', model: [saleAd: saleAd])
-            return
-        }
+        saleAdService.save(saleAd)
+        log.info("SaleAd saved successfully: ${saleAd.id}")
 
-        // Redirect to the view or other action after successful save
         flash.message = 'Sale Ad saved successfully'
+        log.info("Redirecting to show page for SaleAd with id: ${saleAd.id}")
         redirect(action: 'show', id: saleAd.id)
     }
 
@@ -116,11 +81,15 @@ class SaleAdController {
         }
 
         try {
-            /**
-             * TODO: Il faut sauvegarder l'image envoyée depuis le formulaire
-             * La sauvegarder en local puis créer une illustration sur le fichier
-             * que vous avez sauvegardé. Enfin on ajoute l'illustration à l'annonce
-              */
+            def uploadedFiles = request.getFiles('files')
+
+            if (uploadedFiles.size() > 1) {
+                log.info("Processing ${uploadedFiles.size()} uploaded files")
+                def illustrations = illustraionService.createMany(uploadedFiles)
+                illustrations.each { illustration ->
+                    saleAd.addToIllustrations(illustration)
+                }
+            }
             saleAdService.save(saleAd)
         } catch (ValidationException e) {
             respond saleAd.errors, view:'edit'

@@ -6,14 +6,11 @@ import grails.validation.ValidationException
 import static org.springframework.http.HttpStatus.*
 import grails.gorm.transactions.Transactional
 
-
 @Secured(['ROLE_ADMIN'])
-
 class UserController {
 
     UserService userService
     SpringSecurityService springSecurityService
-
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
 
@@ -29,7 +26,7 @@ class UserController {
     def create() {
         respond new User(params), model: [roleList: Role.list()]
     }
-    
+
     @Transactional
     def save(User user) {
         if (user == null) {
@@ -38,19 +35,17 @@ class UserController {
         }
 
         try {
-            
             def roleId = params.role?.id
             if (roleId) {
                 userService.save(user)
                 UserRole.where { user == user }.deleteAll()
                 def role = Role.get(roleId)
                 if (role) {
-                    UserRole.create(user, role, true) 
+                    UserRole.create(user, role, true)
                     } else {
                     log.warn "Role with id $roleId not found"
                 }
             }
-
         } catch (ValidationException e) {
             respond user.errors, view:'create'
             return
@@ -64,21 +59,20 @@ class UserController {
             '*' { respond user, [status: CREATED] }
         }
     }
-    
-    @Secured(['ROLE_ADMIN','ROLE_CLIENT'])
-    def edit(Long id) {
 
+    @Secured(['ROLE_ADMIN', 'ROLE_CLIENT'])
+    def edit(Long id) {
         User logginUser = (User)springSecurityService.getCurrentUser()
         def userRole = Role.findByAuthority('ROLE_CLIENT')
-        if (logginUser.getAuthorities().contains(userRole) && id != logginUser.id)
-            redirect(url: "/")
-        else
+        if (logginUser.getAuthorities().contains(userRole) && id != logginUser.id) {
+            redirect(url: '/')
+        }
+        else {
             respond userService.get(id), model: [roleList: Role.list()]
-
+        }
     }
 
-
-    @Secured(['ROLE_ADMIN','ROLE_CLIENT'])
+    @Secured(['ROLE_ADMIN', 'ROLE_CLIENT'])
     @Transactional
     def update(User user) {
         if (user == null) {
@@ -93,7 +87,7 @@ class UserController {
                 UserRole.where { user == user }.deleteAll()
                 def role = Role.get(roleId)
                 if (role) {
-                    UserRole.create(user, role, true) 
+                    UserRole.create(user, role, true)
                     } else {
                     log.warn "Role with id $roleId not found"
                 }
@@ -120,7 +114,7 @@ class UserController {
         }
 
         UserRole.where { user == User.get(id) }.deleteAll()
-        Message.where { author == User.get(id) || dest == User.get(id)}.deleteAll()
+        Message.where { author == User.get(id) || dest == User.get(id) }.deleteAll()
         Message.where { dest == User.get(id) }.deleteAll()
         userService.delete(id)
 
