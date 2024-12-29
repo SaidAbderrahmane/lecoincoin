@@ -62,13 +62,23 @@
 
                         <h3 class="text-xl font-semibold text-gray-800">Illustrations:</h3>
                         <div class="illustrations grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                            <g:each in="${saleAd.illustrations}" var="illustration">
+                            <g:if test="${saleAd.illustrations.isEmpty()}">
                                 <div class="illustration bg-gray-100 rounded-lg overflow-hidden shadow-sm">
                                     <img class="w-full h-48 object-cover"
-                                        src="${createLinkTo(dir: 'assets/illustrations', file: illustration.fileName)}"
-                                        alt="${illustration.fileName}" />
+                                         src="${createLinkTo(dir: 'assets/illustrations', file: grailsApplication.config.illustrations.defaultImage)}"
+                                         alt="Default Illustration" />
                                 </div>
-                            </g:each>
+                            </g:if>
+                            <g:else>
+                                <g:each in="${saleAd.illustrations}" var="illustration">
+                                    <div class="illustration bg-gray-100 rounded-lg overflow-hidden shadow-sm">
+                                        <img class="w-full h-48 object-cover"
+                                             src="${createLinkTo(dir: 'assets/illustrations', file: illustration.fileName)}"
+                                             alt="${illustration.fileName}" />
+                                    </div>
+                                </g:each>
+                            </g:else>
+
                         </div>
 
                         <div class="flex justify-between items-center mt-6">

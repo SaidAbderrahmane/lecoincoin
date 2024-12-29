@@ -1,23 +1,34 @@
 package fr.bihar.lecoincoin
 
-import fr.bihar.lecoincoin.Illustration
-import fr.bihar.lecoincoin.SaleAd
 
 import grails.core.GrailsApplication
 import grails.gorm.transactions.Transactional
 
-import java.io.File
 import java.security.MessageDigest
-import java.util.List
 
 import org.springframework.web.multipart.MultipartFile
 
 @Transactional
-class IllustraionService {
+class IllustrationService {
 
     GrailsApplication grailsApplication
-
+    /**
+     * Handles the upload and creation of multiple illustrations from a list of multipart files.
+     *
+     * This method processes a list of uploaded files, saves them to a specified directory,
+     * and returns a list of `Illustration` objects representing the saved files. If the upload
+     * directory does not exist, it is created. Each file is hashed to avoid overwriting existing files.
+     * Any errors during file saving are logged and handled gracefully.
+     * @param uploadedFiles a list of `MultipartFile` objects representing the uploaded files.
+     *                      Each file should include its original filename for hashing purposes.
+     * @return a list of `Illustration` objects, where each object contains the hashed filename
+     *         of a successfully saved file. If no files are successfully saved, an empty list is returned.
+     * @throws IllegalStateException if there are issues with file creation or saving,
+     *                                which are logged for debugging purposes.
+     * @see MultipartFile
+     */
     List<Illustration> createMany(List<MultipartFile> uploadedFiles) {
+
         String uploadDir = grailsApplication.config.illustrations.basePath
         File dir = new File(uploadDir)
 
@@ -72,4 +83,14 @@ class IllustraionService {
         return hashedFilename
     }
 
+    String getIllustrationUrl(Illustration illustration) {
+        String uploadDir = grailsApplication.config.illustrations.baseUrl
+        return "${uploadDir}${illustration.fileName}"
+    }
+
+    String getDefaultIllustrationUrl() {
+        String uploadDir = grailsApplication.config.illustrations.baseUrl
+        String defaultImage = grailsApplication.config.illustrations.defaultImage
+        return "${uploadDir}${defaultImage}"
+    }
 }

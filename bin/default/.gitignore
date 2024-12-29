@@ -13,3 +13,4 @@ out/
 .vscode/
 bin/
 grails-app/assets/illustrations/
+!grails-app/assets/illustrations/default.svg

@@ -1,7 +1,7 @@
 package fr.bihar.lecoincoin
 
-import fr.bihar.lecoincoin.Category
 
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 import grails.gorm.transactions.Transactional
