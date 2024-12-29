@@ -3,7 +3,7 @@ package fr.bihar.lecoincoin
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class IllustraionServiceSpec extends Specification implements ServiceUnitTest<IllustraionService>{
+class IllustrationServiceSpec extends Specification implements ServiceUnitTest<IllustrationService>{
 
     def setup() {
     }

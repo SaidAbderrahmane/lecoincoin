@@ -1,20 +1,17 @@
 package fr.bihar.lecoincoin
 
-import static org.springframework.http.HttpStatus.*
-import grails.converters.JSON
-import java.security.MessageDigest
-
 import grails.plugin.springsecurity.SpringSecurityService
+import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 
-import grails.plugin.springsecurity.annotation.Secured
+import static org.springframework.http.HttpStatus.*
 
 @Secured(['ROLE_ADMIN'])
 class SaleAdController {
 
     UserService userService
     SaleAdService saleAdService
-    IllustraionService illustraionService
+    IllustrationService illustrationService
     SpringSecurityService springSecurityService
 
     static allowedMethods = [save: 'POST', update: 'PUT', delete: 'DELETE']
@@ -56,7 +53,7 @@ class SaleAdController {
 
         if (uploadedFiles.size() > 1) {
             log.info("Processing ${uploadedFiles.size()} uploaded files")
-            def illustrations = illustraionService.createMany(uploadedFiles)
+            def illustrations = illustrationService.createMany(uploadedFiles)
             illustrations.each { illustration ->
                 saleAd.addToIllustrations(illustration)
             }
@@ -83,15 +80,17 @@ class SaleAdController {
         try {
             def uploadedFiles = request.getFiles('files')
 
+//            Bizarre case where uploadedFiles size is one when no file is uploaded
             if (uploadedFiles.size() > 1) {
                 log.info("Processing ${uploadedFiles.size()} uploaded files")
-                def illustrations = illustraionService.createMany(uploadedFiles)
+                def illustrations = illustrationService.createMany(uploadedFiles)
                 illustrations.each { illustration ->
                     saleAd.addToIllustrations(illustration)
                 }
             }
             saleAdService.save(saleAd)
         } catch (ValidationException e) {
+            log.error("Error updating SaleAd: ${e.message}", e)
             respond saleAd.errors, view:'edit'
             return
         }

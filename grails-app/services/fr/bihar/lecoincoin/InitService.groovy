@@ -56,9 +56,6 @@ class InitService {
                 def saleAdInstance = new SaleAd(title: "Title $catIndex $saleAdId", description: 'Description',
                         price: saleAdId * 100, address: addressInstance, author: userClientInstance)
 
-                // J'ajoute une illustration sur chaque annonce
-                saleAdInstance.addToIllustrations(new Illustration(fileName: 'grails.svg'))
-
                 // On associe l'annonce à une catégorie
                 categoryInstance.addToSaleAds(saleAdInstance)
             }

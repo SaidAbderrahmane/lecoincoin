@@ -1,5 +1,6 @@
 server:
   port: 8081
 illustrations:
+  defaultImage: default.svg
   basePath: grails-app/assets/illustrations/
   baseUrl: http://localhost:8081/assets/illustrations/
