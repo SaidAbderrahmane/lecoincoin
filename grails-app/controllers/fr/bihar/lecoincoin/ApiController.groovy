@@ -3,12 +3,15 @@ package fr.bihar.lecoincoin
 import grails.converters.JSON
 import grails.converters.XML
 import grails.plugin.springsecurity.annotation.Secured
+import grails.gorm.transactions.Transactional
+
 
 @Secured('ROLE_ADMIN')
-
+@Transactional
 class ApiController {
 
     UserService userService
+    MessageService messageService
 
 
     def getBody(request, body) {
@@ -37,7 +40,7 @@ class ApiController {
             case 'PUT':
                 userInstance.properties = request.JSON
                 if (!userInstance.save()) {
-                    render(status: 400, text: [status: 400, message: userInstance.errors] as JSON)
+                    render userInstance.errors, status: 400
                 }
                 serializeThis(userInstance, request.getHeader("Accept"))
                 break
@@ -45,7 +48,7 @@ class ApiController {
             case 'PATCH':
               userInstance.properties = request.JSON
                 if (!userInstance.save()) {
-                    render(status: 400, text: [status: 400, message: userInstance.errors] as JSON)
+                    render userInstance.errors, status: 400
                 }
                 serializeThis(userInstance, request.getHeader("Accept"))
                 break
@@ -140,8 +143,14 @@ class ApiController {
                 serializeThis(categoryInstance, request.getHeader("Accept"))
                 break
             case 'PUT':
+                categoryInstance.properties = request.JSON
+                if (!categoryInstance.save()) {
+                    response.status = 400
+                    render categoryInstance.errors as JSON
+                    return
+                }
                 break
-            case 'PATCH':
+            case 'PATCH':   
                 break
             case 'DELETE':
                 break
@@ -177,12 +186,27 @@ class ApiController {
                 break
 
             case 'PUT':
+                def messageBody = getBody(request, request.JSON)
+                if (!messageInstance.update(messageBody.content, messageBody.title)) {
+                    response.status = 400
+                    render messageInstance.errors as JSON
+                    return
+                }                
                 break
 
             case 'PATCH':
                 break
 
             case 'DELETE':
+            try{
+                messageService.delete(messageInstance.id)
+                response.setStatus(204)
+                render(status: 204, text: 'Message deleted')
+                }
+                catch (e) {
+                    response.status = 400
+                    render text: e.message, model: [exception: e]
+                }
                 break
 
             default:
@@ -200,7 +224,10 @@ class ApiController {
                 break
 
             case 'POST':
+            
                 def messageInstance = new Message(request.JSON)
+                messageInstance.author = User.get(messageInstance.author.id)
+                messageInstance.dest = User.get(messageInstance.dest.id)
                 if (!messageInstance.save(flush: true)) {
                     response.status = 400
                     render messageInstance.errors as JSON

@@ -4,7 +4,7 @@ import fr.bihar.lecoincoin.Category
 
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
-
+import grails.gorm.transactions.Transactional
 import static org.springframework.http.HttpStatus.*
 
 /**
