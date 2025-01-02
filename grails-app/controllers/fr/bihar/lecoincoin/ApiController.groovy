@@ -17,9 +17,6 @@ class ApiController {
     SaleAdService saleAdService
     CategoryController categoryController
     IllustrationService illustrationService
-    // Ressource User Singleton
-    // GET, PUT, PATCH, DELETE /api/user/{id}
-
     UserService userService
     MessageService messageService
 
@@ -33,17 +30,14 @@ class ApiController {
     }
 
     def user() {
-        // On vérifie qu'il y a bien un param "id" sans quoi erreur car nous sommes dans le traitement d'une ressource singleton
         if (!params.id) {
             return response.status = 400
         }
-
-        // On vérifie que l'instance d'User désigné corresponde bien à un utilisateur existant
         def userInstance = User.get(params.id)
         if (!userInstance) {
             return response.status = 404
         }
-        // A ce stade on sait que l'on a un utilisateur bien identifié
+        
         switch (request.method) {
             case 'GET':
                 serializeThis(userInstance, request.getHeader('Accept'))
@@ -84,8 +78,8 @@ class ApiController {
         }
         return response.status = 406
     }
-    // Ressource Users Collection
-    // GET, POST /api/users
+    
+
     def users() {
         switch (request.method) {
 
@@ -108,6 +102,7 @@ class ApiController {
         }
         return response.status = 406
     }
+    
 
     def saleAd() {
         if (!params.id) {
