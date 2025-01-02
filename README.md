@@ -1,94 +1,194 @@
+# ReadMe: Plateforme de Petites Annonces
 
-# Projet "Lecoincoin"
+## Table des Matières
+1. [Introduction](#introduction)
+2. [Fonctionnalités Clés](#fonctionnalités-clés)
+   - [Interface d'Administration](#interface-dadministration)
+   - [API REST](#api-rest)
+   - [Documentation de l'API](#documentation-de-lapi)
+3. [Structure des Entités](#structure-des-entités)
+4. [Prérequis](#prérequis)
+5. [Lancer le Projet en Local](#lancer-le-projet-en-local)
+6. [Documentation de l'API](#documentation-de-lapi-1)
+7. [Tests](#tests)
+8. [Captures d'Écran](#captures-décran)
+9. [Auteurs](#auteurs)
+10. [Soutenance](#soutenance)
+11. [Notes](#notes)
 
-## Contexte du Projet
+---
 
-Dans ce projet, vous devrez réaliser un site de petites annonces, similaire à "Leboncoin", en utilisant le framework **Grails v5.3.6**. L'objectif est de mettre en place une interface d'administration et une API REST pour gérer les annonces, les utilisateurs et autres entités clés de la plateforme.
+## Introduction
+Ce projet est une plateforme de petites annonces inspirée de "Leboncoin", réalisée avec le framework Grails v5.3.6. Elle propose une interface d'administration et une API REST pour gérer les utilisateurs, les annonces, le categories d'annonces, les images d'annonces, et la messagerie entre utilsateurs.
 
-## Spécifications Techniques
+---
 
-### Environnement
+## Fonctionnalités Clés
+### Interface d'Administration
+L'interface d'administration permet de :
+- Gérer les utilisateurs et leurs rôles.
+- Créer, lire, mettre à jour et supprimer des annonces.
+- Associer des images aux annonces via un système d'upload.
+- Classer les annonces par catégorie.
+- Configurer les informations d'adresse pour chaque annonce.
+- Accéder à une messagerie privée entre utilisateurs.
 
-- **Framework** : Grails v5.3.6
-- **Sécurité** : 
-	- Gestion des utilisateurs et des rôles via le plugin Spring Security Core
-	- Gestion de la sécurité pour l'API REST via Spring Security REST
+![Capture d'écran - Interface d'Administration](mockup_admin_overview.png)
 
-### Modélisation des Entités
+### API REST
+L'API REST fournit des fonctionnalités robustes pour interagir avec les entités :
+- **Gestion des utilisateurs** :
+  - Récupération de la liste des utilisateurs.
+  - Création, mise à jour, et suppression d'utilisateurs.
+  - Attribution de rôles.
+- **Gestion des annonces** :
+  - Récupération de toutes les annonces ou d'une annonce spécifique.
+  - Création, modification et suppression d'annonces.
+- **Gestion des catégories** :
+  - Récupération de la liste des catégories.
+  - Ajout, édition et suppression de catégories.
+- **Gestion des messages** :
+  - Envoi de messages privés.
+  - Récupération des messages liés à un utilisateur.
+- **Gestion des adresses** :
+  - Ajout et modification des adresses pour les annonces.
 
-Vous devrez modéliser les entités suivantes :
+![Capture d'écran - Endpoint d'annonces](mockup_saleads_api.png)
 
-1. **User** : Représente un utilisateur du site.
-2. **Role** : Définit les différents rôles des utilisateurs.
-3. **SaleAd** : Représente une annonce de vente.
-4. **Category** : Permet de classer les annonces par catégorie.
-5. **Illustration** : Gère les images associées aux annonces (avec support d’upload d’images côté serveur).
-6. **Message** : Permet aux utilisateurs de communiquer entre eux via des discussions privées.
-7. **Address** : Fournit des informations d'adresse pour une annonce.
+### Documentation de l'API
+- Une documentation Postman détaillée est incluse.
+- Exemples de requêtes pour chaque endpoint.
 
-Les entités **User** et **Role** seront gérées par **Spring Security** pour assurer la sécurité de l'application.
+![Capture d'écran - Swagger Documentation](mockup_swagger.png)
 
-Les **Roles** accessible seront : 
-- ADMIN_ROLE : Il pourra tout faire
-- MODO_ROLE : Il pourra tout consulter et modifier
-- USER_ROLE : Il pourra consulter les annonces, modifier **ses** annonces, ainsi que **son** profil 
+---
 
-### Objectifs
+## Structure des Entités
+### User
+- **Propriétés** : `id`, `username`, `password`, `email`, `roles`.
+- **Rôles disponibles** : `ADMIN_ROLE`, `MODO_ROLE`, `USER_ROLE`.
 
-#### 1. Interface d'Administration
+### Role
+- **Propriétés** : `id`, `roleName`.
 
-L’interface d’administration doit permettre les opérations de **CRUD** (Create, Read, Update, Delete) pour chaque entité, avec des formulaires structurés regroupant les entités qui font sens. Par exemple :
+### SaleAd
+- **Propriétés** : `id`, `title`, `description`, `price`, `category`, `user`, `illustrations`.
 
-- **User et Role** : Formulaire pour la gestion des utilisateurs et de leurs rôles.
-- **SaleAd et Illustration** : Formulaire pour la gestion des annonces et des illustrations associées.
+### Category
+- **Propriétés** : `id`, `name`.
 
-Les images uploadées doivent être stockées côté serveur et associées aux annonces via l'entité **Illustration**.
+### Illustration
+- **Propriétés** : `id`, `imagePath`, `saleAd`.
 
-#### 2. API REST
+### Message
+- **Propriétés** : `id`, `sender`, `receiver`, `content`, `timestamp`.
 
-L’API REST doit être conçue pour interagir avec les entités de manière cohérente et sécurisée :
+### Address
+- **Propriétés** : `id`, `street`, `city`, `zipCode`, `country`.
 
-- **Endpoints pour les collections** (ex. `/saleAds`) :
-  - `GET` : Récupérer une liste d'entités.
-  - `POST` : Créer une nouvelle entité dans la collection.
+---
 
-- **Endpoints pour les singletons** (ex. `/saleAds/{id}`) :
-  - `GET` : Récupérer une entité spécifique.
-  - `PUT` : Mettre à jour entièrement une entité existante.
-  - `PATCH` : Mettre à jour partiellement une entité existante.
-  - `DELETE` : Supprimer une entité.
+## Prérequis
+### Logiciels nécessaires
+- Java 11+
+- Grails v5.3.6
+- IDE compatible (IntelliJ, VS Code, etc.)
 
-L'API doit retourner des codes **HTTP** appropriés pour chaque action (ex. 200 pour succès, 404 pour non trouvé, 201 pour création, etc.).
+### Installation des dépendances
+Exécutez la commande suivante dans le répertoire racine du projet :
+```bash
+grails dependencies
+```
 
-#### 3. Documentation de l'API
+---
 
-Chaque endpoint doit être **documenté** pour faciliter son utilisation. La documentation doit inclure :
+## Lancer le Projet en Local
+1. Clonez le dépôt :
+```bash
+git clone https://github.com/BIHAR-ESTIA/grails-et-rest-sm.git
+```
+2. Configurez les paramètres de la base de données dans le fichier `application.yml`.
+3. Lancez le serveur Grails :
+```bash
+grails run-app
+```
+4. Accédez à l'application sur [http://localhost:8080](http://localhost:8080).
 
-- Descriptions des paramètres requis.
-- Exemples de requêtes.
-- Codes de réponse attendus.
+---
 
+## Documentation de l'API
+### Exemples de Requêtes
+#### Récupérer toutes les annonces
+**GET** `/saleAds`
+- Réponse :
+```json
+[
+  {
+    "id": 1,
+    "title": "Voiture d'occasion",
+    "price": 5000
+  }
+]
+```
 
-## Travail à Rendre
+#### Créer une annonce
+**POST** `/saleAds`
+- Corps :
+```json
+{
+  "title": "Chaise de bureau",
+  "description": "Chaise ergonomique, très bon état",
+  "price": 150,
+  "categoryId": 3
+}
+```
+- Réponse :
+```json
+{
+  "id": 5,
+  "message": "Annonce créée avec succès."
+}
+```
 
-Vous devrez fournir :
+#### Document Postman
+Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`.
 
-1. **Code Source du Projet** : Incluant l'interface d'administration et l'API REST.
-2. **Documentation pour l'API** : Un document ou fichier de documentation (ex. OpenAPI ou Swagger) décrivant les endpoints de l'API.
-3. **Tests de l'API** : Des tests sont attendus pour l'API, sous la forme que vous souhaitez, sachant qu'on utilise communément POSTMAN pour ce genre de choses.
-4. **Readme** : Un readme qui contiendra les informations relatives à votre projet, il décrira également ce que vous avez réalisé et présentera un guide expliquant comment lancer le projet en local.
-5. **Soutenance** : Vous devrez préparer une soutenance qui sera présentée devant la classe afin que l'on puisse apprécier ensemble la qualité de votre travail, la date de la soutenance vous sera transmise plus tard.
+![Capture d'écran - Exemple de requête API](mockup_api_request.png)
 
-## Critères d'Évaluation
+---
 
-1. **Interface d'administration** : Fonctionnement des opérations CRUD sur l'interface d'administration. (sur 25)
-2. **Gestion des Images** : Bon fonctionnement de l'upload et du stockage des images côté serveur. (sur 15)
-3. **API** : Respect des spécifications pour l'API REST (endpoints, codes HTTP, documentation). (sur 30)
-4. **Readme** : Clarté du readme. (sur 10)
-5. **Soutenance** : Qualité de la présentation que vous ferez qui devra être préparée et fluide. (sur 10)
-6. **Finition globale** : Qualité du code métier et des interfaces. (sur 10)
+## Tests
+### Tester l'API avec Postman
+1. Importez la collection Postman depuis `src/tests/Postman/collection.json`.
+2. Configurez l'URL de base dans les variables d'environnement.
+3. Exécutez les requêtes prédéfinies pour valider les endpoints.
 
-## Dos and Don'ts
-1. Vous pouvez utiliser un template pour l'interface d'administration
-2. Vous pouvez utiliser du code que vous trouver sous réserve de le comprendre et d'être capable de me l'expliquer
-3. Tout plagiat sera sanctionné d'une note nulle pour toutes les personnes concernées
+### Tests Unitaires
+Lancez les tests avec :
+```bash
+grails test-app
+```
+
+![Capture d'écran - Résultats des tests](mockup_tests_results.png)
+
+---
+
+## Captures d'Écran
+### Interface d'administration
+![Capture d'écran 1](mockup_admin_overview.png)
+
+### Gestion des utilisateurs
+![Capture d'écran 2](mockup_user_management.png)
+
+### Gestion des annonces
+![Capture d'écran 3](mockup_salead_management.png)
+
+### Messagerie privée
+![Capture d'écran 4](mockup_messaging.png)
+
+---
+
+## Auteurs
+- [Said Abderrahmane](https://github.com/saidabderrahmane)
+
+- [ Mahdi DADDI HAMMOU](https://github.com/mahdidhammou)
