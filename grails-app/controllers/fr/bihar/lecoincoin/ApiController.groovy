@@ -180,7 +180,7 @@ class ApiController {
                     saleAd.delete(flush: true)
                     return response.status = 204
                 } catch (Exception e) {
-                    return response.status = 500
+                    return response.status = 400
                 }
             default:
                 return response.status = 405
@@ -223,7 +223,7 @@ class ApiController {
                 }
 
                 if (!newSaleAd.save(flush: true)) {
-                    response.status = 500
+                    response.status = 400
                     respond newSaleAd.errors
                     return
                 }
@@ -258,7 +258,7 @@ class ApiController {
                     return
                 }
                 if (!category.save(flush: true)) {
-                    response.status = 500
+                    response.status = 400
                     respond category.errors
                     return
                 }
@@ -301,7 +301,7 @@ class ApiController {
                     return
                 }
                 if (!newCategory.save(flush: true)) {
-                    response.status = 500
+                    response.status = 400
                     respond newCategory.errors
                     return
                 }
@@ -373,6 +373,7 @@ class ApiController {
                     render messageInstance.errors as JSON
                     return
                 }
+                response.setStatus(201)
                 serializeThis(messageInstance, request.getHeader("Accept"))
                 break
 
