@@ -18,11 +18,9 @@
                 </a>
                 <div class="nav" role="navigation">
                     <ul class="flex items-center gap-4 list-none">
-                        <li>
-                            <a class="home text-blue-600 hover:underline" href="${createLink(uri: '/')}">
-                                <g:message code="default.home.label" />
-                            </a>
-                        </li>
+                        <h1 class="font-bold text-lg">
+                            <g:message code="default.list.label" args="[entityName]" />
+                        </h1>
                         <li class="ml-auto">
                             <g:link
                                 class="create inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium py-2 px-4 rounded-lg text-center transition duration-200"
@@ -36,9 +34,7 @@
 
             <section class="row">
                 <div id="list-category" class="col-12 content scaffold-list" role="main">
-                    <h1>
-                        <g:message code="default.list.label" args="[entityName]" />
-                    </h1>
+
                     <g:if test="${flash.message}">
                         <div class="message" role="status">${flash.message}</div>
                     </g:if>
