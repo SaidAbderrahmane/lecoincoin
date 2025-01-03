@@ -33,7 +33,7 @@ L'interface d'administration permet de :
 - Configurer les informations d'adresse pour chaque annonce.
 - Accéder à une messagerie privée entre utilisateurs.
 
-![Capture d'écran - Interface d'Administration](mockup_admin_overview.png)
+![Capture d'écran - Interface d'Administration](src/docs/screenshots/grails_users.png)
 
 ### API REST
 L'API REST fournit des fonctionnalités robustes pour interagir avec les entités :
@@ -53,13 +53,13 @@ L'API REST fournit des fonctionnalités robustes pour interagir avec les entité
 - **Gestion des adresses** :
   - Ajout et modification des adresses pour les annonces.
 
-![Capture d'écran - Endpoint d'annonces](mockup_saleads_api.png)
+![Capture d'écran - Endpoint d'annonces](src/docs/screenshots/postman_login.png)
 
 ### Documentation de l'API
 - Une documentation Postman détaillée est incluse.
 - Exemples de requêtes pour chaque endpoint.
 
-![Capture d'écran - Swagger Documentation](mockup_swagger.png)
+![Capture d'écran - Swagger Documentation](src/docs/screenshots/postman_get_example.png)
 
 ---
 
@@ -153,9 +153,7 @@ grails run-app
 #### Document Postman
 Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`.
 
-![Capture d'écran - Exemple de requête API](mockup_api_request.png)
 
----
 
 ## Tests
 ### Tester l'API avec Postman
@@ -163,32 +161,37 @@ Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`
 2. Configurez l'URL de base dans les variables d'environnement.
 3. Exécutez les requêtes prédéfinies pour valider les endpoints.
 
-### Tests Unitaires
-Lancez les tests avec :
-```bash
-grails test-app
-```
-
-![Capture d'écran - Résultats des tests](mockup_tests_results.png)
-
----
 
 ## Captures d'Écran
-### Interface d'administration
-![Capture d'écran 1](mockup_admin_overview.png)
-
 ### Gestion des utilisateurs
-![Capture d'écran 2](mockup_user_management.png)
+![Capture d'écran 2](src/docs/screenshots/grails_users.png)
 
 ### Gestion des annonces
-![Capture d'écran 3](mockup_salead_management.png)
+![Capture d'écran 3](src/docs/screenshots/grails_saleAds.png)
 
-### Messagerie privée
-![Capture d'écran 4](mockup_messaging.png)
+### Messagerie 
+![Capture d'écran 4](src/docs/screenshots/grails_messages.png)
+![Capture d'écran 5](src/docs/screenshots/grails_chat.png)
 
 ---
 
-## Auteurs
-- [Said Abderrahmane](https://github.com/saidabderrahmane)
+## Bilan
 
+Ce projet nous a permis de découvrir et de mettre en application les concepts suivants :
+
+* Les bases de données relationnelles avec GORM
+* La sécurité avec Spring Security
+* Les API REST avec Grails
+* La gestion des erreurs et des exceptions
+* La documentation de l'API avec Postman
+* L'utilisation de Postman pour tester l'API
+* L'utilisation de bootstrap / Tailwind pour la mise en page
+* La mise en place d'un système de messagerie instantanée
+
+Nous avons également appris à utiliser des outils tels que Gradle, Git et Postman.
+
+Enfin, nous avons appris à gérer les dépendances et les problèmes de compatibilité entre les différentes versions de Grails et de ses dépendances.
+## Auteurs
+
+- [Said Abderrahmane](https://github.com/saidabderrahmane)
 - [ Mahdi DADDI HAMMOU](https://github.com/mahdidhammou)
