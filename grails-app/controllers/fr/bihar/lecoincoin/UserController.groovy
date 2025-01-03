@@ -112,6 +112,12 @@ class UserController {
             notFound()
             return
         }
+        def currentUser = springSecurityService.currentUser
+        if (currentUser.id == id) {
+            flash.message = "You cannot delete your own account."
+            redirect action: 'index', method: 'GET'
+            return
+        }
 
         UserRole.where { user == User.get(id) }.deleteAll()
         Message.where { author == User.get(id) || dest == User.get(id) }.deleteAll()
