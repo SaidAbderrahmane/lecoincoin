@@ -45,6 +45,10 @@ class ApiController {
 
             case 'PUT':
                 userInstance.properties = request.JSON
+                if (!userInstance.validate()) {
+                    response.status = 422
+                    respond userInstance.errors
+                }
                 if (!userInstance.save()) {
                     render userInstance.errors, status: 400
                 }
@@ -89,6 +93,10 @@ class ApiController {
 
             case 'POST':
                 def userInstance = new User(request.JSON)
+                if (!userInstance.validate()) {
+                    response.status = 422
+                    respond userInstance.errors
+                }
                 if (!userInstance.save()) {
                     render userInstance.errors, status: 400
                 }
@@ -102,7 +110,7 @@ class ApiController {
         }
         return response.status = 406
     }
-    
+
 
     def saleAd() {
         if (!params.id) {
