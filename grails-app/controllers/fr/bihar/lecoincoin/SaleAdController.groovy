@@ -6,7 +6,7 @@ import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured(['ROLE_ADMIN'])
+
 class SaleAdController {
 
     UserService userService
@@ -51,7 +51,7 @@ class SaleAdController {
             println "File class: ${file.class.name}"
         }
 
-        if (uploadedFiles.size() > 1) {
+        if (!uploadedFiles.empty) {
             log.info("Processing ${uploadedFiles.size()} uploaded files")
             def illustrations = illustrationService.createMany(uploadedFiles)
             illustrations.each { illustration ->
@@ -67,9 +67,18 @@ class SaleAdController {
         redirect(action: 'show', id: saleAd.id)
     }
 
+
     def edit(Long id) {
+        User currentUser = springSecurityService.currentUser
+        if (currentUser.id != id && !currentUser.getAuthorities().any { it.authority == 'ROLE_ADMIN' }) {
+            flash.message = "Unauthorized access"
+            redirect(action: 'index')
+            return
+        }
+        
         respond saleAdService.get(id), model: [categoryList: Category.list(), userList: User.list()]
     }
+
 
     def update(SaleAd saleAd) {
         if (saleAd == null) {
