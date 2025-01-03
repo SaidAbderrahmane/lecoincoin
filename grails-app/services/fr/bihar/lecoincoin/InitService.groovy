@@ -35,42 +35,48 @@ class InitService {
         assert Role.count == 3
         assert UserRole.count == 3
 
-        // Pour chaque item de cette liste, je crée une catégorie
-        ['Non classe', 'Immobilier', 'Véhicules', 'Locations de vacances', 'Emploi', 'Mode',
-         'Maison & Jardin', 'Famille', 'Électronique', 'Loisirs', 'Autres'].eachWithIndex {
-            String catName, Integer catIndex ->
+        def categoryMap = [
+                'Non classé'           : [], // root category
+                'Immobilier'           : ['Ventes', 'Locations', 'Commerces', 'Terrains'],
+                'Véhicules'            : ['Voitures', 'Motos', 'Utilitaires', 'Accessoires'],
+                'Locations de vacances': ['Maisons', 'Appartements', 'Chalets', 'Camping'],
+                'Mode'                 : ['Vêtements', 'Chaussures', 'Accessoires', 'Bijoux'],
+                'Maison & Jardin'      : ['Mobilier', 'Décoration', 'Jardinage', 'Bricolage'],
+                'Famille'              : ['Enfants', 'Bébés', 'Jeux & Jouets', 'Puériculture'],
+                'Électronique'         : ['Téléphones', 'Ordinateurs', 'Télévisions', 'Électroménager'],
+                'Loisirs'              : ['Livres', 'Musique', 'Sports', 'Jeux vidéo'],
+                'Autres'               : ['Objets divers', 'Collection', 'Antiquités', 'Insolite']
+        ]
 
+        categoryMap.each { String catName, List<String> subcategories ->
             def categoryInstance = new Category(name: catName).save()
 
-            // Pour chaque catégorie, je crée 4 sous-catégories
-            ['SubCat1', 'SubCat2', 'SubCat3', 'SubCat4'].each {
-                String subCatName -> new Category(name: subCatName, parent: categoryInstance).save()
+            subcategories.each { String subCatName ->
+                new Category(name: subCatName, parent: categoryInstance).save()
             }
 
-            //Dans chaque catégorie (parent) j'ajoute 5 annonces, l'annonce est liée à l'utilisateur "CLIENT" et fait référence à une illustration
             (1..5).each { Integer saleAdId ->
-                // On crée l'adresse que l'on va utiliser dans l'annonce
                 def addressInstance = new Address(address: 'Addresse', postCode: '012345', city: 'Ville', country: 'Pays')
-
-                // Création de l'annonce
-                def saleAdInstance = new SaleAd(title: "Title $catIndex $saleAdId", description: 'Description',
-                        price: saleAdId * 100, address: addressInstance, author: userClientInstance)
-
-                // On associe l'annonce à une catégorie
+                def saleAdInstance = new SaleAd(
+                        title: "Title ${catName} $saleAdId",
+                        description: 'Description',
+                        price: saleAdId * 100,
+                        address: addressInstance,
+                        author: userClientInstance
+                )
                 categoryInstance.addToSaleAds(saleAdInstance)
             }
-
-            // On save la catégorie, qui va save l'annonce, qui va save l'adresse ainsi que l'illustration
-            categoryInstance.save(flush: true, failOnError: true)
-         }
+        }
 
         // Pour chaque utilisateur, on ajoute un message à destination de tous les autres utilisateurs
-        User.list().each {
-            User userAuthor ->
-                User.list().each {
-                    User userDest ->
-                        new Message(content: "Le message de $userAuthor.username à $userDest.username", author: userAuthor, dest: userDest).save()
-                }
+        User.list().each { User userAuthor ->
+            User.list().each { User userDest ->
+                new Message(
+                        content: "Le message de $userAuthor.username à $userDest.username",
+                        author: userAuthor,
+                        dest: userDest
+                ).save()
+            }
         }
     }
 

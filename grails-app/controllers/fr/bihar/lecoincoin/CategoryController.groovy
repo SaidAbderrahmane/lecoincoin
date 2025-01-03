@@ -19,7 +19,7 @@ class CategoryController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond categoryService.list(params), model:[categoryCount: categoryService.count()]
+        respond categoryService.list(params), model: [categoryCount: categoryService.count()]
     }
 
     def show(Long id) {
@@ -39,7 +39,7 @@ class CategoryController {
         try {
             categoryService.save(category)
         } catch (ValidationException e) {
-            respond category.errors, view:'create'
+            respond category.errors, view: 'create'
             return
         }
 
@@ -53,7 +53,7 @@ class CategoryController {
     }
 
     def edit(Long id) {
-        respond categoryService.get(id)
+        respond categoryService.get(id), model: [categoryList: Category.list()]
     }
 
     def update(Category category) {
@@ -65,7 +65,7 @@ class CategoryController {
         try {
             categoryService.save(category)
         } catch (ValidationException e) {
-            respond category.errors, view:'edit'
+            respond category.errors, view: 'edit'
             return
         }
 
@@ -107,7 +107,7 @@ class CategoryController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'category.label', default: 'Category'), id])
-                redirect action:'index', method:'GET'
+                redirect action: 'index', method: 'GET'
             }
             '*' { render status: NO_CONTENT }
         }

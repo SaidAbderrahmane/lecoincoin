@@ -86,3 +86,10 @@
     border-color: #d1d5db;
     /* Match border color */
 }
+
+label:has(+ input:required):after,
+label:has(+ textarea:required):after,
+label:has(+ select:required):after {
+    content: ' *';
+    color: red;
+}

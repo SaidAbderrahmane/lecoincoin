@@ -6,7 +6,7 @@ import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-
+@Secured(['ROLE_ADMIN'])
 class SaleAdController {
 
     UserService userService
@@ -31,19 +31,33 @@ class SaleAdController {
 
     def save() {
         log.info('Started saving SaleAd')
+        println(params)
+        SaleAd saleAd = new SaleAd(
+            title: params.title,
+            description: params.description,
+            price: params.price as BigDecimal,
+            author: (springSecurityService.currentUser as User),
+            category: Category.get(params.category.id as Integer),
+            address: new Address(
+                    address: params.address.address,
+                    postCode: params.address.postCode,
+                    city: params.address.city,
+                    country: params.address.country
+                ),
+        )
 
-        SaleAd saleAd = new SaleAd()
-        saleAd.title = params.title
-        saleAd.description = params.description
-        saleAd.price = params.price as BigDecimal
-        saleAd.address = Address.get(params.address.id as Integer)
-        saleAd.category = Category.get(params.category.id as Integer)
-        saleAd.author = springSecurityService.currentUser
+        try {
+            def uploadedFiles = request.getFiles('files')
+            println "Uploaded files list: ${uploadedFiles}"
+            println "Number of uploaded files: ${uploadedFiles.size()}"
 
-        def uploadedFiles = request.getFiles('files')
-        println "Uploaded files list: ${uploadedFiles}"
-        println "Number of uploaded files: ${uploadedFiles.size()}"
-
+            if (!uploadedFiles.empty) {
+                log.info("Processing ${uploadedFiles.size()} uploaded files")
+                def illustrations = illustrationService.createMany(uploadedFiles)
+                illustrations.each { illustration ->
+                    saleAd.addToIllustrations(illustration)
+                }
+            }
         uploadedFiles.each { file ->
             println "File original name: ${file.originalFilename}"
             println "File content type: ${file.contentType}"
@@ -57,6 +71,13 @@ class SaleAdController {
             illustrations.each { illustration ->
                 saleAd.addToIllustrations(illustration)
             }
+        }
+
+            saleAdService.save(saleAd)
+        } catch (ValidationException e) {
+            log.error("Error saving SaleAd: ${e.message}", e)
+            respond saleAd.errors, view: 'create'
+            return
         }
 
         saleAdService.save(saleAd)
@@ -75,7 +96,7 @@ class SaleAdController {
             redirect(action: 'index')
             return
         }
-        
+
         respond saleAdService.get(id), model: [categoryList: Category.list(), userList: User.list()]
     }
 
@@ -89,8 +110,7 @@ class SaleAdController {
         try {
             def uploadedFiles = request.getFiles('files')
 
-//            Bizarre case where uploadedFiles size is one when no file is uploaded
-            if (uploadedFiles.size() > 1) {
+            if (!uploadedFiles.empty) {
                 log.info("Processing ${uploadedFiles.size()} uploaded files")
                 def illustrations = illustrationService.createMany(uploadedFiles)
                 illustrations.each { illustration ->

@@ -93,4 +93,21 @@ class IllustrationService {
         String defaultImage = grailsApplication.config.illustrations.defaultImage
         return "${uploadDir}${defaultImage}"
     }
+
+    void delete(Serializable id) {
+
+        Illustration illustration = Illustration.get(id as Long)
+        if (illustration == null) {
+            log.error("Illustration not found for id: ${id}")
+            return
+        }
+
+        String uploadDir = grailsApplication.config.illustrations.basePath
+        File file = new File(uploadDir, illustration.fileName)
+        if (file.exists() && !file.delete()) {
+            log.error("Failed to delete file: ${file.absolutePath}")
+        }
+
+        illustration.delete()
+    }
 }

@@ -13,4 +13,8 @@ class Category {
         parent nullable: true  // Parent is optional, for root categories
     }
 
+    Boolean isRoot() {
+        return id == 1
+    }
+
 }
