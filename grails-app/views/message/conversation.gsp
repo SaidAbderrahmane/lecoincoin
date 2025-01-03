@@ -21,7 +21,6 @@
                     <div class="text-xs text-gray-600">${message.dateCreated}</div>
                     <g:if test="${message.author == user}">
                     <g:form resource="${this.message}" controller="message" action="delete" method="DELETE">
-                    <form controller="message" action="delete" method="DELETE">
                     <input type="hidden" name="id" value="${message.id}"/>
                     <button type="submit" class="text-red-500 hover:text-red-700 px-3">
                     <i class="fa-solid fa-trash"></i>                 
