@@ -10,7 +10,7 @@ import static org.springframework.http.HttpStatus.*
 /**
  * CategoryController handles CRUD operations for Category entities.
  */
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN','ROLE_MODO'])
 class CategoryController {
 
     CategoryService categoryService
