@@ -35,6 +35,14 @@ L'interface d'administration permet de :
 
 ![Capture d'écran - Interface d'Administration](src/docs/screenshots/grails_users.png)
 
+### Rôles et Privilèges
+
+| Rôle | Privilèges |
+| --- | --- |
+| ROLE_ADMIN | - Gestion des utilisateurs. <br> - Gestion des annonces. <br> - Gestion des catégories. <br> - Envoi et lecture de ses messages |
+| ROLE_MODO | - Gestion des annonces. <br> - Gestion des catégories.<br> - Envoi et lecture de ses messages |
+| ROLE_CLIENT | - Gestion de son compte.<br> - Création, modification et suppression de ses propres annonces. <br> - Envoi et lecture de ses messages. <br>  |
+
 ### API REST
 L'API REST fournit des fonctionnalités robustes pour interagir avec les entités :
 - **Gestion des utilisateurs** :
