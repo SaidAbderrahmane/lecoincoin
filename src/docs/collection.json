@@ -1,0 +1,1636 @@
+{
+	"info": {
+		"_postman_id": "d1117877-ca5e-462f-bfc3-fdb6b32b8013",
+		"name": "Grails - BIHAR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21410580",
+		"_collection_link": "https://grails-0919.postman.co/workspace/grails~33c60a0b-eae3-40e7-b09e-5a78f7f6bcc3/collection/21410580-d1117877-ca5e-462f-bfc3-fdb6b32b8013?action=share&source=collection_link&creator=21410580"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "users 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/users",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/user/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user /{id}  400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/user/",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user /{id}  404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/user/99",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								"99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"POST /users - Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"phone\": \"0123456789\",\r\n        \"username\": \"test2\",\r\n        \"password\": \"test\",\r\n        \"email\": \"test2@lecoincoin.fr\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/users",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users 422",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"phone\": \"0123456789\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/users",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"phone\": \"0123456789\",\r\n        \"username\": \"test\",\r\n        \"password\": \"test\",\r\n        \"email\": \"test@lecoincoin.fr\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/user/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 20ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"phone\": \"test\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/user/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user/{id} 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/user/4",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"user",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "messages 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test for response time\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"// Test for comparing the first element of the response body\r",
+									"pm.test(\"First element of the response body has the correct id, isRead, dateCreated, content, author, and dest properties\", function () {\r",
+									"    pm.expect(pm.response.json()[0]).to.have.property(\"id\", 1);\r",
+									"    pm.expect(pm.response.json()[0]).to.have.property('isRead', false);\r",
+									"    pm.expect(pm.response.json()[0]).to.have.property('content', \"Le message de client à client\");\r",
+									"    pm.expect(pm.response.json()[0].author).to.eql({ id: 1 });\r",
+									"    pm.expect(pm.response.json()[0].dest).to.eql({ id: 1 });\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/messages",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test for response time\r",
+									"pm.test(\"Response time is less than 100ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/message/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/message/",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/message/9999",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "messages 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Le message de client à client\",\r\n    \"author\": {\r\n        \"id\": 2\r\n    },\r\n    \"dest\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/messages",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "messages 422",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Le message de client à client\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/messages",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 200",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Le message de client à client\",\r\n    \"author\": {\r\n        \"id\": 2\r\n    },  \r\n    \"dest\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/message/3",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 200",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Le message de client à client\",\r\n    \"author\": {\r\n        \"id\": 2\r\n    },\r\n    \"dest\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/message/3",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "message/{id} 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"// Test for response time\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/message/3",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"message",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SaleAd",
+			"item": [
+				{
+					"name": "saleAds 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/saleAds",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test for response time\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"// Test for specific properties in the response body\r",
+									"pm.test(\"Verify the response body properties\", function () {\r",
+									"    pm.expect(pm.response.json()).to.have.property('id');\r",
+									"    pm.expect(pm.response.json()).to.have.property('dateCreated');\r",
+									"    pm.expect(pm.response.json()).to.have.property('price');\r",
+									"    pm.expect(pm.response.json()).to.have.property('lastUpdated');\r",
+									"    pm.expect(pm.response.json()).to.have.property('active');\r",
+									"    pm.expect(pm.response.json()).to.have.property('illustrations');\r",
+									"    pm.expect(pm.response.json()).to.have.property('author');\r",
+									"    pm.expect(pm.response.json()).to.have.property('title');\r",
+									"    pm.expect(pm.response.json()).to.have.property('address');\r",
+									"    pm.expect(pm.response.json()).to.have.property('category');\r",
+									"    pm.expect(pm.response.json()).to.have.property('description');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd/9999",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAds 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for successful creation of saleAd\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 50ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify the saleAd properties\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.expect(jsonData.dateCreated).to.exist;\r",
+									"    pm.expect(jsonData.price).to.equal(100);\r",
+									"    pm.expect(jsonData.active).to.be.false;\r",
+									"    pm.expect(jsonData.illustrations).to.be.an('array').that.is.empty;\r",
+									"    pm.expect(jsonData.author.id).to.equal(1);\r",
+									"    pm.expect(jsonData.title).to.equal(\"Title 0 1\");\r",
+									"    pm.expect(jsonData.address.id).to.equal(1);\r",
+									"    pm.expect(jsonData.category.id).to.equal(1);\r",
+									"    pm.expect(jsonData.description).to.equal(\"Description\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 100.00,\r\n    \"active\": false,\r\n    \"illustrations\": [\r\n\r\n    ],\r\n    \"author\": {\r\n        \"id\": 1\r\n    },\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAds",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAds 422",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"New Sale Advertisement\",\r\n  \"description\": \"This is a detailed description of the sale advertisement.\",\r\n  \"active\": true,\r\n  \"category\": {\r\n    \"id\": 1\r\n  },\r\n  \"author\": {\r\n    \"id\": 1\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 200",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"price\": 100.00,\r\n    \"active\": false,\r\n    \"illustrations\": [\r\n\r\n    ],\r\n    \"author\": {\r\n        \"id\": 1\r\n    },\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response has status 200 for valid data\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains valid SaleAd fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.have.property(\"id\").that.is.a(\"number\");",
+									"    pm.expect(responseData).to.have.property(\"title\").that.is.a(\"string\");",
+									"    pm.expect(responseData).to.have.property(\"description\").that.is.a(\"string\");",
+									"    pm.expect(responseData).to.have.property(\"price\").that.is.a(\"number\");",
+									"    pm.expect(responseData).to.have.property(\"active\").that.is.a(\"boolean\");",
+									"",
+									"    const iso8601Regex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$/;",
+									"    pm.expect(responseData).to.have.property(\"dateCreated\").that.match(iso8601Regex);",
+									"    pm.expect(responseData).to.have.property(\"lastUpdated\").that.match(iso8601Regex);",
+									"",
+									"    pm.expect(responseData).to.have.property(\"illustrations\").that.is.an(\"array\");",
+									"});",
+									"",
+									"pm.test(\"Illustrations have valid IDs\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.have.property(\"illustrations\").that.is.an(\"array\");",
+									"",
+									"    responseData.illustrations.forEach(function (illustration) {",
+									"        pm.expect(illustration).to.have.property(\"id\").that.is.a(\"number\");",
+									"    });",
+									"});",
+									"",
+									"pm.test(\"Validation errors return status 422\", function () {",
+									"    if (pm.response.code === 422) {",
+									"        const errors = pm.response.json();",
+									"",
+									"        pm.expect(errors).to.have.property(\"errors\").that.is.an(\"array\");",
+									"        errors.errors.forEach(function (error) {",
+									"            pm.expect(error).to.have.property(\"field\").that.is.a(\"string\");",
+									"            pm.expect(error).to.have.property(\"message\").that.is.a(\"string\");",
+									"        });",
+									"    }",
+									"});",
+									"",
+									"pm.test(\"Uploaded files are processed correctly\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    if (pm.request.method === \"PUT\" || pm.request.method === \"PATCH\") {",
+									"        pm.expect(responseData).to.have.property(\"illustrations\").that.is.an(\"array\");",
+									"    }",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Updated Title\",\r\n  \"description\": \"Updated Description\",\r\n  \"price\": 150.00,\r\n  \"active\": true,\r\n  \"illustrations\": []\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/saleAd/2",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saleAd/{id} 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response has to be 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/saleAd/2",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"saleAd",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "categroies 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/category/2",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category/{id} 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/category/",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category/{id} 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/category/9999",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								"9999"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"test cat\",\n    \"parent\" : null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/categories",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories 422",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Test for status code\r",
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/categories",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"new_name\",\r\n    \"parent\": null\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/category/2",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "category/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"new_name\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_path}}/category/1",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "categories/{id} 204",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204\", function () {",
+									"    pm.expect(pm.response.code).to.equal(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_path}}/category/3",
+							"host": [
+								"{{base_path}}"
+							],
+							"path": [
+								"category",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"try {\r",
+							"pm.environment.get(\"variable_key\");\r",
+							"pm.environment.get(\"variable_key\");\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(\"Response JSON:\", jsonData);\r",
+							"\r",
+							"    if (jsonData && jsonData.access_token) {\r",
+							"        pm.environment.set(\"access_token\", jsonData.access_token);\r",
+							"        console.log(\"Access token set successfully!\");\r",
+							"    } else {\r",
+							"        console.error(\"Access token not found in response.\");\r",
+							"    }\r",
+							"} catch (e) {\r",
+							"    console.error(\"Error parsing response:\", e);\r",
+							"}\r",
+							"",
+							"pm.test(\"Response status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('username');",
+							"    pm.expect(responseData).to.have.property('roles');",
+							"    pm.expect(responseData).to.have.property('token_type');",
+							"    pm.expect(responseData).to.have.property('access_token');",
+							"    pm.expect(responseData).to.have.property('expires_in');",
+							"    pm.expect(responseData).to.have.property('refresh_token');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Username is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.username).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Access token is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Expires_in is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.expires_in).to.be.a('number');",
+							"  pm.expect(responseData.expires_in).to.be.at.least(0);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_path}}/login",
+					"host": [
+						"{{base_path}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
