@@ -17,26 +17,6 @@
 <body>
     <div id="content" role="main">
         <div class="container">
-            <%-- <section class="row">
-                <a href="#list-message" class="skip" tabindex="-1">
-                    <g:message code="default.link.skip.label" default="Skip to content&hellip;" />
-                </a>
-                <div class="nav" role="navigation">
-                    <ul>
-                        <li><a class="home" href="${createLink(uri: '/')}">
-                                <g:message code="default.home.label" />
-                            </a></li>
-                        <li>
-                            <g:link class="create" action="create">
-                                <g:message code="default.new.label" args="[entityName]" />
-                            </g:link>
-                        </li>
-                    </ul>
-                </div>
-                </section> --%>
-
-
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <div
                     class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
                     <label for="table-search" class="sr-only">Search</label>
@@ -52,15 +32,16 @@
                                     </svg>
                                 </div>
                                 <input type="text" id="table-search-users" name="searchString" value="${searchString}"
-                                    class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                                    class="block p-2 mr-5 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Search for users">
                                 <button type="submit"
-                                    class="h-full text-white bg-blue-700 hover:bg-blue-800  rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Search</button>
+                                    class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm px-5 py-2.5 text-center">Search</button>
                             </div>
                             </g:form>
                     </div>
                 </div>
 
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>

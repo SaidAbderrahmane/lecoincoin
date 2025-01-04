@@ -12,9 +12,12 @@
             <title>Sign in</title>
 </head>
 
-<body>
-    <section style="background-image: url('${resource(dir: 'images', file: 'login-bg.png')}');"
-        class="bg-cover h-screen flex items-center justify-center">
+<body class="h-screen w-screen">
+    <section style="background-image: url('${resource(dir: 'images', file: 'login-bg.png')}');
+            background-size: contain;
+            background-position: center top; /* Focus on the top of the image */
+            background-repeat: no-repeat;"
+        class="w-screen h-screen flex items-center justify-center">
         <div class="flex flex-col items-center justify-center">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <asset:image src="lecoincoin-logo.png" width="150" alt="lecoincoin Logo" />
