@@ -1,100 +1,22 @@
 # ReadMe: Plateforme de Petites Annonces
 
 ## Table des Matières
-1. [Introduction](#introduction)
-2. [Fonctionnalités Clés](#fonctionnalités-clés)
-   - [Interface d'Administration](#interface-dadministration)
-   - [API REST](#api-rest)
-   - [Documentation de l'API](#documentation-de-lapi)
-3. [Structure des Entités](#structure-des-entités)
-4. [Prérequis](#prérequis)
-5. [Lancer le Projet en Local](#lancer-le-projet-en-local)
-6. [Documentation de l'API](#documentation-de-lapi-1)
-7. [Tests](#tests)
-8. [Captures d'Écran](#captures-décran)
-9. [Auteurs](#auteurs)
-10. [Soutenance](#soutenance)
-11. [Notes](#notes)
+- [Introduction](#introduction)
+- [Prérequis](#prérequis)
+- [Lancer le Projet en Local](#lancer-le-projet-en-local)
+- [Fonctionnalités Clés](#fonctionnalités-clés)
+- [Rôles et Privilèges](#rôles-et-privilèges)
+- [Structure des Entités](#structure-des-entités)
+- [API REST](#api-rest)
+- [Documentation de l'API](#documentation-de-lapi)
+- [Captures d'Écran](#captures-décran)
+- [Bilan](#bilan)
+- [Auteurs](#auteurs)
 
----
 
 ## Introduction
 Ce projet est une plateforme de petites annonces inspirée de "Leboncoin", réalisée avec le framework Grails v5.3.6. Elle propose une interface d'administration et une API REST pour gérer les utilisateurs, les annonces, le categories d'annonces, les images d'annonces, et la messagerie entre utilsateurs.
 
----
-
-## Fonctionnalités Clés
-### Interface d'Administration
-L'interface d'administration permet de :
-- Gérer les utilisateurs et leurs rôles.
-- Créer, lire, mettre à jour et supprimer des annonces.
-- Associer des images aux annonces via un système d'upload.
-- Classer les annonces par catégorie.
-- Configurer les informations d'adresse pour chaque annonce.
-- Accéder à une messagerie privée entre utilisateurs.
-
-![Capture d'écran - Interface d'Administration](src/docs/screenshots/grails_users.png)
-
-### Rôles et Privilèges
-
-| Rôle | Privilèges |
-| --- | --- |
-| ROLE_ADMIN | - Gestion des utilisateurs. <br> - Gestion des annonces. <br> - Gestion des catégories. <br> - Envoi et lecture de ses messages |
-| ROLE_MODO | - Gestion des annonces. <br> - Gestion des catégories.<br> - Envoi et lecture de ses messages |
-| ROLE_CLIENT | - Gestion de son compte.<br> - Création, modification et suppression de ses propres annonces. <br> - Envoi et lecture de ses messages. <br>  |
-
-### API REST
-L'API REST fournit des fonctionnalités robustes pour interagir avec les entités :
-- **Gestion des utilisateurs** :
-  - Récupération de la liste des utilisateurs.
-  - Création, mise à jour, et suppression d'utilisateurs.
-  - Attribution de rôles.
-- **Gestion des annonces** :
-  - Récupération de toutes les annonces ou d'une annonce spécifique.
-  - Création, modification et suppression d'annonces.
-- **Gestion des catégories** :
-  - Récupération de la liste des catégories.
-  - Ajout, édition et suppression de catégories.
-- **Gestion des messages** :
-  - Envoi de messages privés.
-  - Récupération des messages liés à un utilisateur.
-- **Gestion des adresses** :
-  - Ajout et modification des adresses pour les annonces.
-
-![Capture d'écran - Endpoint d'annonces](src/docs/screenshots/postman_login.png)
-
-### Documentation de l'API
-- Une documentation Postman détaillée est incluse.
-- Exemples de requêtes pour chaque endpoint.
-
-![Capture d'écran - Swagger Documentation](src/docs/screenshots/postman_get_example.png)
-
----
-
-## Structure des Entités
-### User
-- **Propriétés** : `id`, `username`, `password`, `email`, `roles`.
-- **Rôles disponibles** : `ADMIN_ROLE`, `MODO_ROLE`, `USER_ROLE`.
-
-### Role
-- **Propriétés** : `id`, `roleName`.
-
-### SaleAd
-- **Propriétés** : `id`, `title`, `description`, `price`, `category`, `user`, `illustrations`.
-
-### Category
-- **Propriétés** : `id`, `name`.
-
-### Illustration
-- **Propriétés** : `id`, `imagePath`, `saleAd`.
-
-### Message
-- **Propriétés** : `id`, `sender`, `receiver`, `content`, `timestamp`.
-
-### Address
-- **Propriétés** : `id`, `street`, `city`, `zipCode`, `country`.
-
----
 
 ## Prérequis
 ### Logiciels nécessaires
@@ -120,54 +42,7 @@ git clone https://github.com/BIHAR-ESTIA/grails-et-rest-sm.git
 ```bash
 grails run-app
 ```
-4. Accédez à l'application sur [http://localhost:8080](http://localhost:8080).
-
----
-
-## Documentation de l'API
-### Exemples de Requêtes
-#### Récupérer toutes les annonces
-**GET** `/saleAds`
-- Réponse :
-```json
-[
-  {
-    "id": 1,
-    "title": "Voiture d'occasion",
-    "price": 5000
-  }
-]
-```
-
-#### Créer une annonce
-**POST** `/saleAds`
-- Corps :
-```json
-{
-  "title": "Chaise de bureau",
-  "description": "Chaise ergonomique, très bon état",
-  "price": 150,
-  "categoryId": 3
-}
-```
-- Réponse :
-```json
-{
-  "id": 5,
-  "message": "Annonce créée avec succès."
-}
-```
-
-#### Document Postman
-Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`.
-
-
-
-## Tests
-### Tester l'API avec Postman
-1. Importez la collection Postman depuis `src/tests/Postman/collection.json`.
-2. Configurez l'URL de base dans les variables d'environnement.
-3. Exécutez les requêtes prédéfinies pour valider les endpoints.
+4. Accédez à l'application sur [http://localhost:8081](http://localhost:8081).
 
 
 ## Captures d'Écran
@@ -182,6 +57,89 @@ Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`
 ![Capture d'écran 5](src/docs/screenshots/grails_chat.png)
 
 ---
+
+## Fonctionnalités Clés
+L'interface d'administration de la plateform permet de :
+- Gérer les utilisateurs et leurs rôles.
+- Créer, lire, mettre à jour et supprimer des annonces.
+- Associer des images aux annonces via un système d'upload.
+- Classer les annonces par catégorie.
+- Configurer les informations d'adresse pour chaque annonce.
+- Accéder à une messagerie privée entre utilisateurs.
+
+
+## Rôles et Privilèges
+| Rôle | Privilèges |
+| --- | --- |
+| ROLE_ADMIN | - Gestion des utilisateurs. <br> - Gestion des annonces. <br> - Gestion des catégories. <br> - Envoi et lecture de ses messages |
+| ROLE_MODO | - Gestion des annonces. <br> - Gestion des catégories.<br> - Envoi et lecture de ses messages |
+| ROLE_CLIENT | - Gestion de son compte.<br> - Création, modification et suppression de ses propres annonces. <br> - Envoi et lecture de ses messages. <br>  |
+
+
+## Structure des Entités
+### User
+- **Propriétés** : `id`, `username`, `password`, `email`, `phone`, `roles`.
+- **Rôles disponibles** : `ADMIN_ROLE`, `MODO_ROLE`, `USER_ROLE`.
+
+### Role
+- **Propriétés** : `id`, `roleName`.
+
+### SaleAd
+- **Propriétés** : `id`, `title`, `description`, `price`, `category`, `user`, `illustrations`.
+
+### Category
+- **Propriétés** : `id`, `name`, `parent`
+
+### Illustration
+- **Propriétés** : `id`, `FileName`
+
+### Message
+- **Propriétés** : `id`, `author`, `dest`, `content`, `isRead`, `dateCreated`.
+
+### Address
+- **Propriétés** : `id`, `address`, `postCode`, `city`,  `country`.
+
+
+## API REST
+L'API REST fournit des fonctionnalités robustes pour interagir avec les entités :
+- **Gestion des utilisateurs** :
+  - Récupération de la liste des utilisateurs.
+  - Création, mise à jour, et suppression d'utilisateurs.
+  - Attribution de rôles.
+- **Gestion des annonces** :
+  - Récupération de toutes les annonces ou d'une annonce spécifique.
+  - Création, modification et suppression d'annonces.
+- **Gestion des catégories** :
+  - Récupération de la liste des catégories.
+  - Ajout, édition et suppression de catégories.
+- **Gestion des messages** :
+  - Envoi de messages privés.
+  - Récupération des messages liés à un utilisateur.
+- **Gestion des adresses** :
+  - Ajout et modification des adresses pour les annonces.
+
+
+
+### Documentation de l'API
+
+- Une documentation Postman détaillée est incluse.
+- Le fichier `collection.json` est disponible dans le répertoire `src/main/docs/`.
+- Exemples de requêtes pour chaque endpoint.
+
+Authentification
+
+![Capture d'écran - Endpoint d'annonces](src/docs/screenshots/postman_login.png)
+
+Get SaleAds
+
+![Capture d'écran - Swagger Documentation](src/docs/screenshots/postman_get_example.png)
+
+
+### Tester l'API avec Postman
+1. Importez la collection Postman depuis `src/tests/Postman/collection.json`.
+2. Configurez l'URL de base dans les variables d'environnement.
+3. Exécutez les requêtes prédéfinies pour valider les endpoints.
+
 
 ## Bilan
 
