@@ -56,7 +56,7 @@ class ApiController {
                 break
 
             case 'PATCH':
-              userInstance.properties = request.JSON
+                userInstance.properties = request.JSON
                 if (!userInstance.save()) {
                     render userInstance.errors, status: 400
                 }
@@ -338,6 +338,15 @@ class ApiController {
                 break
 
             case 'PATCH':
+                def messageBody = getBody(request, request.JSON)
+                messageInstance.properties = messageBody
+                if (!messageInstance.save(flush: true)) {
+                    response.status = 400
+                    render messageInstance.errors as JSON
+                    return
+                }
+                response.status = 200
+                serializeThis(messageInstance, request.getHeader("Accept"))
                 break
 
             case 'DELETE':
