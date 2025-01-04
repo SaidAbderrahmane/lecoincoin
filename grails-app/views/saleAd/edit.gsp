@@ -199,7 +199,7 @@
                 </svg>
 
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to
-                delete this user?</h3>
+                delete this saleAd?</h3>
                 <g:form action="delete" method="DELETE">
                     <input type="hidden" name="id" value="${saleAd.id}"/>
                     <button data-modal-hide="popup-modal" type="submit"
