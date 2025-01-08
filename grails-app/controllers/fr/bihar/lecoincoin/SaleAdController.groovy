@@ -6,7 +6,6 @@ import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured(['ROLE_ADMIN'])
 class SaleAdController {
 
     UserService userService
@@ -90,18 +89,24 @@ class SaleAdController {
 
 
     def edit(Long id) {
-        User currentUser = springSecurityService.currentUser
-        if (currentUser.id != id && !currentUser.getAuthorities().any { it.authority == 'ROLE_ADMIN' }) {
+        /*         User currentUser = springSecurityService.currentUser
+        if (currentUser.id != SaleAd.get(id).author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
             flash.message = "Unauthorized access"
             redirect(action: 'index')
             return
-        }
-
+        } */
         respond saleAdService.get(id), model: [categoryList: Category.list(), userList: User.list()]
     }
 
 
     def update(SaleAd saleAd) {
+        User currentUser = springSecurityService.currentUser
+        if (currentUser.id != saleAd.author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
+            flash.message = "Unauthorized access"
+            redirect(action: 'index')
+            return
+        }
+
         if (saleAd == null) {
             notFound()
             return
@@ -137,6 +142,13 @@ class SaleAdController {
     }
 
     def delete(Long id) {
+
+        User currentUser = springSecurityService.currentUser
+        if (currentUser.id != SaleAd.get(id).author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
+            flash.message = "Unauthorized access"
+            redirect(action: 'index')
+            return
+        }
         if (id == null) {
             notFound()
             return

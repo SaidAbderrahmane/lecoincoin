@@ -60,7 +60,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN', 'ROLE_CLIENT'])
+    @Secured(['ROLE_ADMIN', 'ROLE_MODO', 'ROLE_CLIENT'])
     def edit(Long id) {
         User logginUser = (User)springSecurityService.getCurrentUser()
         def userRole = Role.findByAuthority('ROLE_CLIENT')
@@ -72,7 +72,7 @@ class UserController {
         }
     }
 
-    @Secured(['ROLE_ADMIN', 'ROLE_CLIENT'])
+    @Secured(['ROLE_ADMIN',  'ROLE_MODO','ROLE_CLIENT'])
     @Transactional
     def update(User user) {
         if (user == null) {
