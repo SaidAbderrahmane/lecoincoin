@@ -6,7 +6,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 
 @Transactional
-@Secured(['ROLE_ADMIN'])
+@Secured(['ROLE_ADMIN', 'ROLE_MODO', 'ROLE_CLIENT'])
 class IllustrationController {
 
     IllustrationService illustrationService

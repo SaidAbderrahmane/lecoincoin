@@ -14,28 +14,40 @@
 <div id="content" role="main">
     <div class="container">
         <section class="row">
-            <a href="#create-saleAd" class="skip" tabindex="-1">
-                <g:message code="default.link.skip.label" default="Skip to content&hellip;"/>
-            </a>
-
-            <div class="nav" role="navigation">
-                <ul>
-                    <li><a class="home" href="${createLink(uri: '/')}">
-                        <g:message code="default.home.label"/>
-                    </a></li>
+            <nav class="flex items-center space-x-2 text-gray-700" aria-label="Breadcrumb">
+                <ul class="flex space-x-1">
                     <li>
-                        <g:link class="list" action="index">
+                        <a href="${createLink(uri: '/')}" class="text-blue-600 hover:text-blue-800 flex items-center">
+                            <g:message code="default.home.label"/>
+                        </a>
+                    </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </li>
+                    <li>
+                        <g:link action="index" class="text-blue-600 hover:text-blue-800">
                             <g:message code="default.list.label" args="[entityName]"/>
                         </g:link>
                     </li>
+                    <li>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </li>
+                    <li>
+                        <h1>
+                            <g:message code="default.create.label" args="[entityName]"/>
+                        </h1>
+                    </li>
                 </ul>
-            </div>
+            </nav>
         </section>
         <section class="row">
             <div id="create-saleAd" class="col-12 content scaffold-create" role="main">
-                <h1>
-                    <g:message code="default.create.label" args="[entityName]"/>
-                </h1>
                 <g:if test="${flash.message}">
                     <div class="message" role="status">${flash.message}</div>
                 </g:if>
@@ -50,9 +62,6 @@
                     </ul>
                 </g:hasErrors>
                 <g:form enctype="multipart/form-data" action="save" class="max-w-sm mx-auto">
-                    <legend class="text-lg font-medium text-gray-900 dark:text-white mb-5">Create a
-                    SaleAd</legend>
-
                     <div class="mb-5">
                         <label for="title"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
@@ -132,7 +141,7 @@
                         <label for="files"
                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Upload
                         Images</label>
-                        <input type="file" name="files" id="files" multiple="multiple"
+                        <input type="file" accept="image/*" name="files" id="files" multiple="multiple"
                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"/>
                     </div>
 

@@ -63,8 +63,6 @@ class IllustrationService {
                 illustrations.add(illustration)
             } catch (Exception e) {
                 log.error("Error saving file ${hashedFilename}: ${e.message}", e)
-                flash.message = "Error saving file ${hashedFilename}."
-                render(view: 'create', model: [saleAd: saleAd])
                 return
             }
         }
@@ -92,6 +90,14 @@ class IllustrationService {
         String uploadDir = grailsApplication.config.illustrations.baseUrl
         String defaultImage = grailsApplication.config.illustrations.defaultImage
         return "${uploadDir}${defaultImage}"
+    }
+
+    List<MultipartFile> validateMany(List<MultipartFile> files) {
+        files.findAll { file ->
+            !file.empty &&
+            file.contentType?.startsWith('image/') &&
+            file.originalFilename?.matches(/^[a-zA-Z0-9._-]+$/)
+        }
     }
 
     void delete(Serializable id) {

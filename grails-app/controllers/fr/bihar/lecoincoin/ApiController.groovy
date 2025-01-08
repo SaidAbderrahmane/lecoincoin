@@ -3,22 +3,24 @@ package fr.bihar.lecoincoin
 import grails.converters.JSON
 import grails.converters.XML
 import grails.gorm.transactions.Transactional
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
 @Transactional
+//]
 @Secured('ROLE_ADMIN')
-
 class ApiController {
 
     static responseFormats = ['json', 'xml']
 
     SaleAdService saleAdService
-    CategoryController categoryController
     IllustrationService illustrationService
     UserService userService
     MessageService messageService
+    SpringSecurityService springSecurityService
 
 
     def getBody(request, body) {
@@ -37,7 +39,7 @@ class ApiController {
         if (!userInstance) {
             return response.status = 404
         }
-        
+
         switch (request.method) {
             case 'GET':
                 serializeThis(userInstance, request.getHeader('Accept'))
@@ -68,21 +70,21 @@ class ApiController {
                 User.withTransaction { status ->
                     UserRole.where { user == User.get(id) }.deleteAll()
                     Message.where { author == User.get(id) }.deleteAll()
-                    Message.where { dest == User.get(id)}.deleteAll()
+                    Message.where { dest == User.get(id) }.deleteAll()
                     userService.delete(userInstance.id)
                 }
 
                 response.setStatus(204)
-                render ( text: "User deleted")
+                render(text: "User deleted")
                 break
 
             default:
-                 return response.status = 405
+                return response.status = 405
                 break
         }
         return response.status = 406
     }
-    
+
 
     def users() {
         switch (request.method) {
@@ -114,70 +116,70 @@ class ApiController {
 
     def saleAd() {
         if (!params.id) {
-            return response.status = 400
+            response.status = 400
+            respond(["message": "Missing id"])
+            return
         }
 
         SaleAd saleAd = SaleAd.get(params.id as int)
         if (!saleAd) {
-            return response.status = 404
+            response.status = 404
+            respond(["message": "SaleAd not found"])
+            return
         }
 
         switch (request.method) {
-            //            done
+        //            done
             case 'GET':
                 def responseObject = [
-                        id: saleAd.id,
-                        dateCreated: saleAd.dateCreated,
-                        lastUpdated: saleAd.lastUpdated,
-                        price: saleAd.price,
-                        active: saleAd.active,
+                        id           : saleAd.id,
+                        dateCreated  : saleAd.dateCreated,
+                        lastUpdated  : saleAd.lastUpdated,
+                        price        : saleAd.price,
+                        active       : saleAd.active,
                         illustrations: saleAd.illustrations*.collect {
                             illustrationService.getIllustrationUrl(it)
                         } ?: [illustrationService.getDefaultIllustrationUrl()],
-                        author: [id: saleAd.author.id],
-                        title: saleAd.title,
-                        address: saleAd.address.toString(),
-                        category: saleAd.category.name,
-                        description: saleAd.description
+                        author       : saleAd.author.username,
+                        title        : saleAd.title,
+                        address      : saleAd.address.toString(),
+                        category     : saleAd.category.name,
+                        description  : saleAd.description
                 ]
                 respond responseObject
-                return
-            //            done
+                return response.status = 200
+                //            done
             case ['PUT', 'PATCH'] as Set:
                 saleAd.properties = request.JSON
-                if (!saleAd.validate()) {
-                    response.status = 422
-                    respond saleAd.errors
-                    return
-                }
-                //                if request has files
-                try {
-                    if (request instanceof MultipartHttpServletRequest) {
-                        def uploadedFiles = (request  as MultipartHttpServletRequest).getFiles('files')
 
-                        if (!uploadedFiles.empty) {
-                            println "Processing ${uploadedFiles.size()} uploaded files"
-                            def illustrations = illustrationService.createMany(uploadedFiles)
-                            illustrations.each { illustration ->
-                                saleAd.addToIllustrations(illustration)
-                            }
+                if (request instanceof MultipartHttpServletRequest) {
+                    ArrayList<MultipartFile> uploadedFiles = request.getFiles('files') ?: []
+                    uploadedFiles = illustrationService.validateMany(uploadedFiles) ?: []
+
+                    if (!uploadedFiles.empty) {
+                        def illustrations = illustrationService.createMany(uploadedFiles)
+                        illustrations.each { illustration ->
+                            saleAd.addToIllustrations(illustration)
                         }
                     }
-                } catch (ValidationException e) {
-                    log.error("Error updating SaleAd: ${e.message}", e)
-                    response.status = 422
+                }
+
+                if (!saleAd.validate()) {
                     respond saleAd.errors
-                    return
+                    return response.status = 400
+
                 }
 
-
-                if (!saleAd.save(flush: true)) {
+                if (!saleAdService.save(saleAd)) {
+                    respond saleAd.errors
                     return response.status = 422
+
                 }
-                response.status = 200
+
                 respond saleAd
-                return
-            // done
+                return response.status = 200
+
+                // done
             case 'DELETE':
                 try {
                     saleAd.delete(flush: true)
@@ -188,41 +190,34 @@ class ApiController {
             default:
                 return response.status = 405
         }
-        return response.status = 406
+
     }
 
     def saleAds() {
         switch (request.method) {
             case 'GET':
-                // Fetch all SaleAd objects
                 def saleAds = SaleAd.list()
                 respond SaleAd.list(params)
                 break
             case 'POST':
                 def newSaleAd = new SaleAd(request.JSON)
+                newSaleAd.author = springSecurityService.currentUser as User
+
+                if (request instanceof MultipartHttpServletRequest) {
+                    ArrayList<MultipartFile> uploadedFiles = request.getFiles('files') ?: []
+                    uploadedFiles = illustrationService.validateMany(uploadedFiles) ?: []
+
+                    if (!uploadedFiles.empty) {
+                        def illustrations = illustrationService.createMany(uploadedFiles)
+                        illustrations.each { illustration ->
+                            saleAd.addToIllustrations(illustration)
+                        }
+                    }
+                }
+
                 if (!newSaleAd.validate()) {
                     response.status = 422
                     respond newSaleAd.errors
-                }
-
-                // if request has files
-                try {
-                    if (request instanceof MultipartHttpServletRequest) {
-                        def uploadedFiles = (request  as MultipartHttpServletRequest).getFiles('files')
-
-                        if (!uploadedFiles.empty) {
-                            println "Processing ${uploadedFiles.size()} uploaded files"
-                            def illustrations = illustrationService.createMany(uploadedFiles)
-                            illustrations.each { illustration ->
-                                saleAd.addToIllustrations(illustration)
-                            }
-                        }
-                    }
-                } catch (ValidationException e) {
-                    log.error("Error updating SaleAd: ${e.message}", e)
-                    response.status = 422
-                    respond newSaleAd.errors
-                    return
                 }
 
                 if (!newSaleAd.save(flush: true)) {
@@ -241,38 +236,41 @@ class ApiController {
 
     def category() {
         if (!params.id) {
-            return response.status = 400
+            response.status = 400
+            return
         }
 
         Category category = Category.get(params.id as int)
         if (!category) {
-            return response.status = 404
+            response.status = 404
+            return
         }
 
         switch (request.method) {
             case 'GET':
                 respond category
-                return
+                return response.status = 200
             case ['PUT', 'PATCH'] as Set:
                 category.properties = request.JSON
                 if (!category.validate()) {
+                    respond category.errors
                     response.status = 422
-                    respond category.errors
                     return
                 }
+
                 if (!category.save(flush: true)) {
-                    response.status = 400
                     respond category.errors
-                    return
+                    return response.status = 400
                 }
-                response.status = 200
+
                 respond category
-                return
+                return response.status = 200
+
             case 'DELETE':
                 // if root category, forbid deletion
                 if (category.id == 1) {
-                    response.status = 403
-                    return
+                    return response.status = 403
+
                 }
                 // if parent, set its children's parent attribute to null
                 category.children.each { it.parent = null }
@@ -291,6 +289,7 @@ class ApiController {
                 return response.status = 405
         }
     }
+
     def categories() {
         switch (request.method) {
             case 'GET':
@@ -299,22 +298,23 @@ class ApiController {
             case 'POST':
                 def newCategory = new Category(request.JSON)
                 if (!newCategory.validate()) {
-                    response.status = 422
                     respond newCategory.errors
-                    return
+                    return response.status = 422
+
                 }
                 if (!newCategory.save(flush: true)) {
-                    response.status = 400
                     respond newCategory.errors
-                    return
+                    return response.status = 400
+
                 }
-                response.status = 201
                 respond newCategory
-                return
+                return response.status = 201
+
             default:
                 return response.status = 405
         }
     }
+
     def message() {
 
         if (!params.id)
@@ -334,7 +334,7 @@ class ApiController {
                     response.status = 400
                     render messageInstance.errors as JSON
                     return
-                }                
+                }
                 break
 
             case 'PATCH':
@@ -350,10 +350,10 @@ class ApiController {
                 break
 
             case 'DELETE':
-            try{
-                messageService.delete(messageInstance.id)
-                response.setStatus(204)
-                render(status: 204, text: 'Message deleted')
+                try {
+                    messageService.delete(messageInstance.id)
+                    response.setStatus(204)
+                    render(status: 204, text: 'Message deleted')
                 }
                 catch (e) {
                     response.status = 400
@@ -376,7 +376,7 @@ class ApiController {
                 break
 
             case 'POST':
-            
+
                 def messageInstance = new Message(request.JSON)
                 messageInstance.author = User.get(messageInstance.author.id)
                 messageInstance.dest = User.get(messageInstance.dest.id)
@@ -395,10 +395,8 @@ class ApiController {
         }
     }
 
-    def serializeThis(Object object, String acceptHeader)
-    {
-        switch (acceptHeader)
-        {
+    def serializeThis(Object object, String acceptHeader) {
+        switch (acceptHeader) {
             case 'application/xml':
             case 'text/xml':
             case 'xml':

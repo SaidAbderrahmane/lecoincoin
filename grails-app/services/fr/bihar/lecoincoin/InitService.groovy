@@ -20,6 +20,10 @@ class InitService {
                 password: 'client',
                 email: 'client@lecoincoin.fr',
                 phone: '0123456789').save()
+        def userClientInstance1 = new User(username: 'client1',
+                password: 'client1',
+                email: 'client2@lecoincoin.fr',
+                phone: '0123456789').save()
         def userModoInstance = new User(username: 'modo',
                 password: 'modo',
                 email: 'modo@lecoincoin.fr').save()
@@ -28,12 +32,14 @@ class InitService {
                 email: 'admin@lecoincoin.fr').save()
         // Association des utilisateurs aux rôles
         UserRole.create(userClientInstance, roleClient, true)
+        UserRole.create(userClientInstance1, roleClient, true)
         UserRole.create(userModoInstance, roleModo, true)
         UserRole.create(userAdminInstance, roleAdmin, true)
 
-        assert User.count == 3
+
+        assert User.count == 4
         assert Role.count == 3
-        assert UserRole.count == 3
+        assert UserRole.count == 4
 
         def categoryMap = [
                 'Non classé'           : [], // root category
