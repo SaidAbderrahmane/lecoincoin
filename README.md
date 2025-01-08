@@ -82,7 +82,7 @@ L'interface d'administration de la plateforme permet de :
 - **Rôles disponibles** : `ADMIN_ROLE`, `MODO_ROLE`, `USER_ROLE`.
 
 ### Role
-- **Propriétés** : `id`, `roleName`.
+- **Propriétés** : `id`, `authority`.
 
 ### SaleAd
 - **Propriétés** : `id`, `title`, `description`, `price`, `category`, `user`, `illustrations`.
