@@ -6,7 +6,7 @@ import grails.validation.ValidationException
 
 import static org.springframework.http.HttpStatus.*
 
-@Secured('ROLE_ADMIN','ROLE_MODO','ROLE_USER')
+@Secured(['ROLE_ADMIN',"ROLE_CLIENT","ROLE_MODO"])
 class SaleAdController {
 
     UserService userService
