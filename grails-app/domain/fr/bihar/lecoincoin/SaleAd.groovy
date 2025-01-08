@@ -21,7 +21,7 @@ class SaleAd {
     static constraints = {
         title nullable: false, blank: false, maxSize: 100
         description nullable: false, blank: false
-        price nullable: false, min: 0.0
+        price nullable: false, min: 0.1
         active nullable: false
     }
 

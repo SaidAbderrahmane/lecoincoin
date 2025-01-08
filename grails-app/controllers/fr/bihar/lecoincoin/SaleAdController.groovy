@@ -3,6 +3,7 @@ package fr.bihar.lecoincoin
 import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
+import org.springframework.web.multipart.MultipartFile
 
 import static org.springframework.http.HttpStatus.*
 
@@ -18,7 +19,7 @@ class SaleAdController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond saleAdService.list(params), model:[saleAdCount: saleAdService.count()]
+        respond saleAdService.list(params), model: [saleAdCount: saleAdService.count()]
     }
 
     def show(Long id) {
@@ -33,108 +34,75 @@ class SaleAdController {
         log.info('Started saving SaleAd')
         println(params)
         SaleAd saleAd = new SaleAd(
-            title: params.title,
-            description: params.description,
-            price: params.price as BigDecimal,
-            author: (springSecurityService.currentUser as User),
-            category: Category.get(params.category.id as Integer),
-            address: new Address(
-                    address: params.address.address,
-                    postCode: params.address.postCode,
-                    city: params.address.city,
-                    country: params.address.country
+                title: params.title,
+                description: params.description,
+                price: params.price as BigDecimal,
+                author: (springSecurityService.currentUser as User),
+                category: Category.get(params.category.id as Integer),
+                address: new Address(
+                        address: params.address.address,
+                        postCode: params.address.postCode,
+                        city: params.address.city,
+                        country: params.address.country
                 ),
         )
 
-        try {
-            def uploadedFiles = request.getFiles('files')
-            println "Uploaded files list: ${uploadedFiles}"
-            println "Number of uploaded files: ${uploadedFiles.size()}"
-
-            if (!uploadedFiles.empty) {
-                log.info("Processing ${uploadedFiles.size()} uploaded files")
-                def illustrations = illustrationService.createMany(uploadedFiles)
-                illustrations.each { illustration ->
-                    saleAd.addToIllustrations(illustration)
-                }
-            }
-        uploadedFiles.each { file ->
-            println "File original name: ${file.originalFilename}"
-            println "File content type: ${file.contentType}"
-            println "File size (bytes): ${file.size}"
-            println "File class: ${file.class.name}"
-        }
+        ArrayList<MultipartFile> uploadedFiles = request.getFiles('files') ?: []
+        uploadedFiles = illustrationService.validateMany(uploadedFiles) ?: []
 
         if (!uploadedFiles.empty) {
-            log.info("Processing ${uploadedFiles.size()} uploaded files")
             def illustrations = illustrationService.createMany(uploadedFiles)
             illustrations.each { illustration ->
                 saleAd.addToIllustrations(illustration)
             }
         }
 
+        try {
             saleAdService.save(saleAd)
         } catch (ValidationException e) {
-            log.error("Error saving SaleAd: ${e.message}", e)
             respond saleAd.errors, view: 'create'
             return
         }
 
-        saleAdService.save(saleAd)
-        log.info("SaleAd saved successfully: ${saleAd.id}")
-
         flash.message = 'Sale Ad saved successfully'
-        log.info("Redirecting to show page for SaleAd with id: ${saleAd.id}")
         redirect(action: 'show', id: saleAd.id)
     }
 
 
     def edit(Long id) {
-        /*         User currentUser = springSecurityService.currentUser
-        if (currentUser.id != SaleAd.get(id).author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
-            flash.message = "Unauthorized access"
-            redirect(action: 'index')
-            return
-        } */
         respond saleAdService.get(id), model: [categoryList: Category.list(), userList: User.list()]
     }
 
 
     def update(SaleAd saleAd) {
-        User currentUser = springSecurityService.currentUser
-        if (currentUser.id != saleAd.author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
-            flash.message = "Unauthorized access"
-            redirect(action: 'index')
-            return
-        }
-
         if (saleAd == null) {
             notFound()
             return
         }
 
-        try {
-            def uploadedFiles = request.getFiles('files')
+        ArrayList<MultipartFile> uploadedFiles = request.getFiles('files') ?: []
+        uploadedFiles = illustrationService.validateMany(uploadedFiles) ?: []
 
-            if (!uploadedFiles.empty) {
-                log.info("Processing ${uploadedFiles.size()} uploaded files")
-                def illustrations = illustrationService.createMany(uploadedFiles)
-                illustrations.each { illustration ->
-                    saleAd.addToIllustrations(illustration)
-                }
+        if (!uploadedFiles.empty) {
+            def illustrations = illustrationService.createMany(uploadedFiles)
+            illustrations.each { illustration ->
+                saleAd.addToIllustrations(illustration)
             }
+        }
+
+        try {
             saleAdService.save(saleAd)
         } catch (ValidationException e) {
-            log.error("Error updating SaleAd: ${e.message}", e)
-            respond saleAd.errors, view:'edit'
+            log.error("Error while updating SaleAd: ${e.message}")
+            respond saleAd.errors, view: 'edit'
             return
         }
 
         request.withFormat {
             form multipartForm {
                 flash.message = message(
-                    code: 'default.updated.message',
-                    args: [saleAd.id]
+                        code: 'default.updated.message',
+                        args: [saleAd.id]
                 )
                 redirect saleAd
             }
@@ -143,13 +111,6 @@ class SaleAdController {
     }
 
     def delete(Long id) {
-
-        User currentUser = springSecurityService.currentUser
-        if (currentUser.id != SaleAd.get(id).author.id && !currentUser.getAuthorities().any { it.authority in ['ROLE_ADMIN', 'ROLE_MODO'] }) {
-            flash.message = "Unauthorized access"
-            redirect(action: 'index')
-            return
-        }
         if (id == null) {
             notFound()
             return
@@ -160,7 +121,7 @@ class SaleAdController {
         request.withFormat {
             form multipartForm {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'saleAd.label', default: 'SaleAd'), id])
-                redirect action:'index', method:'GET'
+                redirect action: 'index', method: 'GET'
             }
             '*' { render status: NO_CONTENT }
         }
