@@ -59,7 +59,7 @@ grails run-app
 ---
 
 ## Fonctionnalités Clés
-L'interface d'administration de la plateform permet de :
+L'interface d'administration de la plateforme permet de :
 - Gérer les utilisateurs et leurs rôles.
 - Créer, lire, mettre à jour et supprimer des annonces.
 - Associer des images aux annonces via un système d'upload.
@@ -152,11 +152,8 @@ Ce projet nous a permis de découvrir et de mettre en application les concepts s
 * La documentation de l'API avec Postman
 * L'utilisation de Postman pour tester l'API
 * L'utilisation de bootstrap / Tailwind pour la mise en page
-* La mise en place d'un système de messagerie instantanée
+* La mise en place d'un système de messagerie 
 
-Nous avons également appris à utiliser des outils tels que Gradle, Git et Postman.
-
-Enfin, nous avons appris à gérer les dépendances et les problèmes de compatibilité entre les différentes versions de Grails et de ses dépendances.
 ## Auteurs
 
 - [Said Abderrahmane](https://github.com/saidabderrahmane)
