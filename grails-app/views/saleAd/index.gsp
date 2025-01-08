@@ -66,15 +66,11 @@
                                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                                         View
                                     </g:link>
-
-                                    <g:if test="${saleAd.author.id == sec.loggedInUserInfo(field: "id")}">
-                                        <g:link controller="saleAd" action="edit" id="${saleAd.id}"
-                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                            Edit
-                                        </g:link>
-                                    </g:if>
+                                    <g:link controller="saleAd" action="edit" id="${saleAd.id}"
+                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                        Edit
+                                    </g:link>
                                 </td>
-
                             </tr>
                         </g:each>
                         </tbody>

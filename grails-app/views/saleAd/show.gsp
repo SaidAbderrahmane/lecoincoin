@@ -1,3 +1,4 @@
+<%@ page import="grails.plugin.springsecurity.SpringSecurityService" %>
 <!DOCTYPE html>
 <html>
 
@@ -87,21 +88,19 @@
 
                     </div>
 
-                    <g:if test="${saleAd.author.id == sec.loggedInUserInfo(field: "id")}">
-                        <div class="flex justify-between items-center mt-6">
-                            <g:link class="text-blue-600 hover:text-blue-800 font-medium" action="edit"
-                                    resource="${this.saleAd}">
-                                <g:message code="default.button.edit.label" default="Edit"/>
-                            </g:link>
-                            <g:form resource="${this.saleAd}" method="DELETE">
-                                <input
-                                        class="bg-red-600 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-red-700"
-                                        type="submit"
-                                        value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                                        onclick="confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-                            </g:form>
-                        </div>
-                    </g:if>
+                    <div class="flex justify-between items-center mt-6">
+                        <g:link class="text-blue-600 hover:text-blue-800 font-medium" action="edit"
+                                resource="${this.saleAd}">
+                            <g:message code="default.button.edit.label" default="Edit"/>
+                        </g:link>
+                        <g:form resource="${this.saleAd}" method="DELETE">
+                            <input
+                                    class="bg-red-600 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-red-700"
+                                    type="submit"
+                                    value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+                                    onclick="confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                        </g:form>
+                    </div>
                 </div>
             </div>
         </section>

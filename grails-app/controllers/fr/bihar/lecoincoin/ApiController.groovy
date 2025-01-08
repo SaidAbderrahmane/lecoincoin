@@ -124,7 +124,7 @@ class ApiController {
         }
 
         switch (request.method) {
-        //            done
+            //            done
             case 'GET':
                 def responseObject = [
                         id           : saleAd.id,
@@ -143,7 +143,7 @@ class ApiController {
                 ]
                 respond responseObject
                 return response.status = 200
-                //            done
+            //            done
             case ['PUT', 'PATCH'] as Set:
                 saleAd.properties = request.JSON
 
@@ -172,7 +172,7 @@ class ApiController {
                 respond saleAd
                 return response.status = 200
 
-                // done
+            // done
             case 'DELETE':
                 try {
                     saleAdService.delete(saleAd.id)
@@ -301,8 +301,9 @@ class ApiController {
                     respond newCategory.errors
                     return response.status = 400
                 }
+                response.status = 201
                 respond newCategory
-                return response.status = 201
+                return
 
             default:
                 return response.status = 405
