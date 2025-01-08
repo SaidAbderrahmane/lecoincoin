@@ -10,8 +10,7 @@ import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
 @Transactional
-//]
-@Secured('ROLE_ADMIN')
+@Secured(['ROLE_ADMIN', 'ROLE_MODO'])
 class ApiController {
 
     static responseFormats = ['json', 'xml']
@@ -22,11 +21,10 @@ class ApiController {
     MessageService messageService
     SpringSecurityService springSecurityService
 
-
     def getBody(request, body) {
         if (request.getHeader('Content-Type')) {
-            if (request.getHeader('Content-Type').contains("json")) body = request.getJSON()
-            else if (request.getHeader('Content-Type').contains("xml")) body = request.getXML()
+            if (request.getHeader('Content-Type').contains('json')) body = request.getJSON()
+            else if (request.getHeader('Content-Type').contains('xml')) body = request.getXML()
         }
         return body
     }
@@ -54,7 +52,7 @@ class ApiController {
                 if (!userInstance.save()) {
                     render userInstance.errors, status: 400
                 }
-                serializeThis(userInstance, request.getHeader("Accept"))
+                serializeThis(userInstance, request.getHeader('Accept'))
                 break
 
             case 'PATCH':
@@ -62,7 +60,7 @@ class ApiController {
                 if (!userInstance.save()) {
                     render userInstance.errors, status: 400
                 }
-                serializeThis(userInstance, request.getHeader("Accept"))
+                serializeThis(userInstance, request.getHeader('Accept'))
                 break
 
             case 'DELETE':
@@ -75,7 +73,7 @@ class ApiController {
                 }
 
                 response.setStatus(204)
-                render(text: "User deleted")
+                render(text: 'User deleted')
                 break
 
             default:
@@ -85,10 +83,8 @@ class ApiController {
         return response.status = 406
     }
 
-
     def users() {
         switch (request.method) {
-
             case 'GET':
                 serializeThis(User.list(), request.getHeader('Accept'))
                 break
@@ -103,7 +99,7 @@ class ApiController {
                     render userInstance.errors, status: 400
                 }
                 response.setStatus(201)
-                serializeThis(userInstance, request.getHeader("Accept"))
+                serializeThis(userInstance, request.getHeader('Accept'))
                 break
 
             default:
@@ -113,18 +109,17 @@ class ApiController {
         return response.status = 406
     }
 
-
     def saleAd() {
         if (!params.id) {
             response.status = 400
-            respond(["message": "Missing id"])
+            respond(['message': 'Missing id'])
             return
         }
 
         SaleAd saleAd = SaleAd.get(params.id as int)
         if (!saleAd) {
             response.status = 404
-            respond(["message": "SaleAd not found"])
+            respond(['message': 'SaleAd not found'])
             return
         }
 
@@ -167,13 +162,11 @@ class ApiController {
                 if (!saleAd.validate()) {
                     respond saleAd.errors
                     return response.status = 400
-
                 }
 
                 if (!saleAdService.save(saleAd)) {
                     respond saleAd.errors
                     return response.status = 422
-
                 }
 
                 respond saleAd
@@ -182,15 +175,19 @@ class ApiController {
                 // done
             case 'DELETE':
                 try {
-                    saleAd.delete(flush: true)
-                    return response.status = 204
+                    saleAdService.delete(saleAd.id)
+                    response.status = 204
+                    respond('message': 'SaleAd deleted')
+                    return
                 } catch (Exception e) {
-                    return response.status = 400
+                    response.status = 400
+                    respond('message': e.message)
+                    return
                 }
+                break
             default:
                 return response.status = 405
         }
-
     }
 
     def saleAds() {
@@ -270,7 +267,6 @@ class ApiController {
                 // if root category, forbid deletion
                 if (category.id == 1) {
                     return response.status = 403
-
                 }
                 // if parent, set its children's parent attribute to null
                 category.children.each { it.parent = null }
@@ -300,12 +296,10 @@ class ApiController {
                 if (!newCategory.validate()) {
                     respond newCategory.errors
                     return response.status = 422
-
                 }
                 if (!newCategory.save(flush: true)) {
                     respond newCategory.errors
                     return response.status = 400
-
                 }
                 respond newCategory
                 return response.status = 201
@@ -316,16 +310,16 @@ class ApiController {
     }
 
     def message() {
-
-        if (!params.id)
+        if (!params.id) {
             return response.status = 400
+        }
         def messageInstance = Message.get(params.id)
-        if (!messageInstance)
+        if (!messageInstance) {
             return response.status = 404
+        }
         switch (request.method) {
-
             case 'GET':
-                serializeThis(messageInstance, request.getHeader("Accept"))
+                serializeThis(messageInstance, request.getHeader('Accept'))
                 break
 
             case 'PUT':
@@ -346,7 +340,7 @@ class ApiController {
                     return
                 }
                 response.status = 200
-                serializeThis(messageInstance, request.getHeader("Accept"))
+                serializeThis(messageInstance, request.getHeader('Accept'))
                 break
 
             case 'DELETE':
@@ -368,11 +362,9 @@ class ApiController {
     }
 
     def messages() {
-
         switch (request.method) {
-
             case 'GET':
-                serializeThis(Message.list(), request.getHeader("Accept"))
+                serializeThis(Message.list(), request.getHeader('Accept'))
                 break
 
             case 'POST':
@@ -386,7 +378,7 @@ class ApiController {
                     return
                 }
                 response.setStatus(201)
-                serializeThis(messageInstance, request.getHeader("Accept"))
+                serializeThis(messageInstance, request.getHeader('Accept'))
                 break
 
             default:
