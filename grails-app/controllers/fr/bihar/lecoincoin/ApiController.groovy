@@ -330,11 +330,14 @@ class ApiController {
 
             case 'PUT':
                 def messageBody = getBody(request, request.JSON)
-                if (!messageInstance.update(messageBody.content, messageBody.title)) {
+                messageInstance.properties = messageBody
+                if (!messageInstance.save(flush: true)) {
                     response.status = 400
                     render messageInstance.errors as JSON
                     return
-                }                
+                }
+                response.status = 200
+                serializeThis(messageInstance, request.getHeader("Accept"))
                 break
 
             case 'PATCH':
