@@ -1,3 +1,6 @@
+<%@ page import="grails.plugin.springsecurity.SpringSecurityService" %>
+<g:set var="springSecurityService" bean="springSecurityService" />
+
 <!DOCTYPE html>
 <html>
 
@@ -62,14 +65,19 @@
                                     ${saleAd.dateCreated}
                                 </td>
                                 <td class="px-6 py-4 flex space-x-2">
-                                    <g:link controller="saleAd" action="show" id="${saleAd.id}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        View
-                                    </g:link>
-                                    <g:link controller="saleAd" action="edit" id="${saleAd.id}"
-                                            class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
-                                        Edit
-                                    </g:link>
+                                    <g:if test="${springSecurityService.currentUser.getAuthorities()*.authority.any { it in ['ROLE_ADMIN', 'ROLE_MODO'] }
+                                            || (saleAd.author?.id == springSecurityService.currentUser?.id)}">
+
+                                        <g:link controller="saleAd" action="edit" id="${saleAd.id}"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            Edit
+                                        </g:link>
+                                    </g:if>
+
+                                        <g:link controller="saleAd" action="show" id="${saleAd.id}"
+                                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                                            View
+                                        </g:link>
                                 </td>
                             </tr>
                         </g:each>

@@ -1,4 +1,6 @@
 <%@ page import="grails.plugin.springsecurity.SpringSecurityService" %>
+<g:set var="springSecurityService" bean="springSecurityService" />
+
 <!DOCTYPE html>
 <html>
 
@@ -87,20 +89,23 @@
                         </g:else>
 
                     </div>
+                    <g:if test="${springSecurityService.currentUser.getAuthorities()*.authority.any { it in ['ROLE_ADMIN', 'ROLE_MODO'] }
+                            || (saleAd.author?.id == springSecurityService.currentUser?.id)}">
 
-                    <div class="flex justify-between items-center mt-6">
-                        <g:link class="text-blue-600 hover:text-blue-800 font-medium" action="edit"
-                                resource="${this.saleAd}">
-                            <g:message code="default.button.edit.label" default="Edit"/>
-                        </g:link>
-                        <g:form resource="${this.saleAd}" method="DELETE">
-                            <input
-                                    class="bg-red-600 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-red-700"
-                                    type="submit"
-                                    value="${message(code: 'default.button.delete.label', default: 'Delete')}"
-                                    onclick="confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
-                        </g:form>
-                    </div>
+                        <div class="flex justify-between items-center mt-6">
+                            <g:link class="text-blue-600 hover:text-blue-800 font-medium" action="edit"
+                                    resource="${this.saleAd}">
+                                <g:message code="default.button.edit.label" default="Edit"/>
+                            </g:link>
+                            <g:form resource="${this.saleAd}" method="DELETE">
+                                <input
+                                        class="bg-red-600 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-red-700"
+                                        type="submit"
+                                        value="${message(code: 'default.button.delete.label', default: 'Delete')}"
+                                        onclick="confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');"/>
+                            </g:form>
+                        </div>
+                    </g:if>
                 </div>
             </div>
         </section>

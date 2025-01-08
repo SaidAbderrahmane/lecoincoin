@@ -7,7 +7,7 @@ class Address {
     String city
     String country
 
-    static belongsTo = SaleAd
+    static belongsTo = [saleAd: SaleAd]
 
     static constraints = {
         address nullable: false, blank: false
