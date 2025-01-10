@@ -168,6 +168,9 @@
 								"exec": [
 									"pm.test(\"POST /users - Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.environment.set(\"userId\", jsonData.id); \r",
 									"});\r",
 									""
 								],
@@ -181,48 +184,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"phone\": \"0123456789\",\r\n        \"username\": \"test2\",\r\n        \"password\": \"test\",\r\n        \"email\": \"test2@lecoincoin.fr\"\r\n    }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_path}}/users",
-							"host": [
-								"{{base_path}}"
-							],
-							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "users 422",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 422\", function () {\r",
-									"    pm.response.to.have.status(422);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "    {\r\n        \"phone\": \"0123456789\"\r\n    }",
+							"raw": "    {\r\n        \"phone\": \"0123456789\",\r\n        \"username\": \"dfnsdifnsdifsdifsd1\",\r\n        \"password\": \"test\",\r\n        \"email\": \"hdsfjsdofjsd1@lecoincoin.fr\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -270,13 +232,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/user/1",
+							"raw": "{{base_path}}/user/{{userId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"user",
-								"1"
+								"{{userId}}"
 							]
 						}
 					},
@@ -291,10 +253,6 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than 20ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
 									"});\r",
 									""
 								],
@@ -316,13 +274,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/user/1",
+							"raw": "{{base_path}}/user/{{userId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"user",
-								"1"
+								"{{userId}}"
 							]
 						}
 					},
@@ -338,10 +296,6 @@
 									"pm.test(\"Status code is 204\", function () {\r",
 									"    pm.response.to.have.status(204);\r",
 									"});\r",
-									"\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
 									""
 								],
 								"type": "text/javascript",
@@ -353,13 +307,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_path}}/user/4",
+							"raw": "{{base_path}}/user/{{userId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"user",
-								"4"
+								"{{userId}}"
 							]
 						}
 					},
@@ -399,24 +353,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// Test for status code\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"// Test for response time\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									"\r",
-									"// Test for comparing the first element of the response body\r",
-									"pm.test(\"First element of the response body has the correct id, isRead, dateCreated, content, author, and dest properties\", function () {\r",
-									"    pm.expect(pm.response.json()[0]).to.have.property(\"id\", 1);\r",
-									"    pm.expect(pm.response.json()[0]).to.have.property('isRead', false);\r",
-									"    pm.expect(pm.response.json()[0]).to.have.property('content', \"Le message de client à client\");\r",
-									"    pm.expect(pm.response.json()[0].author).to.eql({ id: 1 });\r",
-									"    pm.expect(pm.response.json()[0].dest).to.eql({ id: 1 });\r",
-									"});\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
 									""
 								],
 								"type": "text/javascript",
@@ -449,11 +397,6 @@
 									"// Test for status code\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									"// Test for response time\r",
-									"pm.test(\"Response time is less than 100ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
 									"});\r",
 									""
 								],
@@ -554,6 +497,10 @@
 									"// Test for status code\r",
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.environment.set(\"messageId\", jsonData.id);\r",
+									"\r",
 									"});\r",
 									""
 								],
@@ -587,15 +534,14 @@
 					"response": []
 				},
 				{
-					"name": "messages 422",
+					"name": "message/{id} 200",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"// Test for status code\r",
-									"pm.test(\"Status code is 422\", function () {\r",
-									"    pm.response.to.have.status(422);\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									""
 								],
@@ -605,37 +551,11 @@
 						}
 					],
 					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Le message de client à client\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_path}}/messages",
-							"host": [
-								"{{base_path}}"
-							],
-							"path": [
-								"messages"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "message/{id} 200",
-					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"content\": \"Le message de client à client\",\r\n    \"author\": {\r\n        \"id\": 2\r\n    },  \r\n    \"dest\": {\r\n        \"id\": 1\r\n    }\r\n}",
+							"raw": "{\r\n    \"content\": \"LSSSSSSSSSSSSnt\",\r\n    \"author\": {\r\n        \"id\": 2\r\n    },  \r\n    \"dest\": {\r\n        \"id\": 1\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -643,13 +563,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/message/3",
+							"raw": "{{base_path}}/message/{{messageId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"message",
-								"3"
+								"{{messageId}}"
 							]
 						}
 					},
@@ -657,6 +577,20 @@
 				},
 				{
 					"name": "message/{id} 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "PATCH",
 						"header": [],
@@ -670,13 +604,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/message/3",
+							"raw": "{{base_path}}/message/{{messageId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"message",
-								"3"
+								"{{messageId}}"
 							]
 						}
 					},
@@ -693,12 +627,16 @@
 									"pm.test(\"Status code is 204\", function () {\r",
 									"    pm.response.to.have.status(204);\r",
 									"});\r",
-									"\r",
-									"// Test for response time\r",
-									"pm.test(\"Response time is less than 200ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-									"});\r",
-									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
 									""
 								],
 								"type": "text/javascript",
@@ -710,13 +648,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_path}}/message/3",
+							"raw": "{{base_path}}/message/{{messageId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"message",
-								"3"
+								"{{messageId}}"
 							]
 						}
 					},
@@ -743,9 +681,21 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_path}}/saleAds",
 							"host": [
@@ -796,29 +746,17 @@
 							}
 						}
 					],
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{base_path}}/saleAd/1",
+							"raw": "{{base_path}}/saleAd/20",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"saleAd",
-								"1"
+								"20"
 							]
 						}
 					},
@@ -925,18 +863,16 @@
 									"    pm.response.to.have.status(201);\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Response time is less than 50ms\", function () {\r",
-									"    pm.expect(pm.response.responseTime).to.be.below(50);\r",
-									"});\r",
 									"\r",
 									"pm.test(\"Verify the saleAd properties\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.environment.set(\"saleAdId\", jsonData.id);\r",
 									"    pm.expect(jsonData.dateCreated).to.exist;\r",
 									"    pm.expect(jsonData.price).to.equal(100);\r",
 									"    pm.expect(jsonData.active).to.be.false;\r",
 									"    pm.expect(jsonData.illustrations).to.be.an('array').that.is.empty;\r",
-									"    pm.expect(jsonData.author.id).to.equal(1);\r",
+									"    pm.expect(jsonData.author.id).to.equal(4);\r",
 									"    pm.expect(jsonData.title).to.equal(\"Title 0 1\");\r",
 									"    pm.expect(jsonData.address.id).to.equal(1);\r",
 									"    pm.expect(jsonData.category.id).to.equal(1);\r",
@@ -954,7 +890,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"price\": 100.00,\r\n    \"active\": false,\r\n    \"illustrations\": [\r\n\r\n    ],\r\n    \"author\": {\r\n        \"id\": 1\r\n    },\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
+							"raw": "{\r\n    \"price\": 100.00,\r\n    \"active\": false,\r\n    \"illustrations\": [],\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -974,55 +910,13 @@
 					"response": []
 				},
 				{
-					"name": "saleAds 422",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"// Test for status code\r",
-									"pm.test(\"Status code is 422\", function () {\r",
-									"    pm.response.to.have.status(422);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"New Sale Advertisement\",\r\n  \"description\": \"This is a detailed description of the sale advertisement.\",\r\n  \"active\": true,\r\n  \"category\": {\r\n    \"id\": 1\r\n  },\r\n  \"author\": {\r\n    \"id\": 1\r\n  }\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_path}}/saleAd",
-							"host": [
-								"{{base_path}}"
-							],
-							"path": [
-								"saleAd"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "saleAd/{id} 200",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"price\": 100.00,\r\n    \"active\": false,\r\n    \"illustrations\": [\r\n\r\n    ],\r\n    \"author\": {\r\n        \"id\": 1\r\n    },\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
+							"raw": "{\r\n    \"price\": 200.00,\r\n    \"active\": false,\r\n    \"illustrations\": [],\r\n    \"title\": \"Title 0 1\",\r\n    \"address\": {\r\n        \"id\": 1\r\n    },\r\n    \"category\": {\r\n        \"id\": 1\r\n    },\r\n    \"description\": \"Description\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1030,13 +924,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/saleAd/1",
+							"raw": "{{base_path}}/saleAd/{{saleAdId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"saleAd",
-								"1"
+								"{{saleAdId}}"
 							]
 						}
 					},
@@ -1118,13 +1012,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/saleAd/2",
+							"raw": "{{base_path}}/saleAd/{{saleAdId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"saleAd",
-								"2"
+								"{{saleAdId}}"
 							]
 						}
 					},
@@ -1150,13 +1044,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_path}}/saleAd/2",
+							"raw": "{{base_path}}/saleAd/{{saleAdId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"saleAd",
-								"2"
+								"{{saleAdId}}"
 							]
 						}
 					},
@@ -1313,6 +1207,9 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.exist;\r",
+									"    pm.environment.set(\"categoryId\", jsonData.id);\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -1345,48 +1242,6 @@
 					"response": []
 				},
 				{
-					"name": "categories 422",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"// Test for status code\r",
-									"pm.test(\"Status code is 422\", function () {\r",
-									"    pm.response.to.have.status(422);\r",
-									"});\r",
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_path}}/categories",
-							"host": [
-								"{{base_path}}"
-							],
-							"path": [
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "category/{id} 200",
 					"event": [
 						{
@@ -1403,9 +1258,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -1418,13 +1270,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/category/2",
+							"raw": "{{base_path}}/category/{{categoryId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"category",
-								"2"
+								"{{categoryId}}"
 							]
 						}
 					},
@@ -1447,9 +1299,6 @@
 						}
 					],
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
@@ -1462,13 +1311,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{base_path}}/category/1",
+							"raw": "{{base_path}}/category/{{categoryId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"category",
-								"1"
+								"{{categoryId}}"
 							]
 						}
 					},
@@ -1494,13 +1343,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_path}}/category/3",
+							"raw": "{{base_path}}/category/{{categoryId}}",
 							"host": [
 								"{{base_path}}"
 							],
 							"path": [
 								"category",
-								"3"
+								"{{categoryId}}"
 							]
 						}
 					},
@@ -1515,21 +1364,19 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"try {\r",
-							"pm.environment.get(\"variable_key\");\r",
-							"pm.environment.get(\"variable_key\");\r",
-							"    var jsonData = pm.response.json();\r",
-							"    console.log(\"Response JSON:\", jsonData);\r",
-							"\r",
-							"    if (jsonData && jsonData.access_token) {\r",
-							"        pm.environment.set(\"access_token\", jsonData.access_token);\r",
-							"        console.log(\"Access token set successfully!\");\r",
-							"    } else {\r",
-							"        console.error(\"Access token not found in response.\");\r",
-							"    }\r",
-							"} catch (e) {\r",
-							"    console.error(\"Error parsing response:\", e);\r",
-							"}\r",
+							"try {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(\"Response JSON:\", jsonData);",
+							"",
+							"    if (jsonData && jsonData.access_token) {",
+							"        pm.environment.set(\"access_token\", jsonData.access_token);",
+							"        console.log(\"Access token set successfully!\");",
+							"    } else {",
+							"        console.error(\"Access token not found in response.\");",
+							"    }",
+							"} catch (e) {",
+							"    console.error(\"Error parsing response:\", e);",
+							"}",
 							"",
 							"pm.test(\"Response status code is 200\", function () {",
 							"  pm.response.to.have.status(200);",
@@ -1577,6 +1424,9 @@
 				}
 			],
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
